@@ -1,7 +1,7 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+positions = [
+  {latitude: 36.20127926543816, longitude: 136.12792391726268},
+  {latitude: 35.62157403594883, longitude: 140.05411136023233},
+  {latitude: 36.04049680286872, longitude: 140.37267630908482},
+]
+
+Spot.create!(positions)
