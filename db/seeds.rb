@@ -6,3 +6,10 @@ positions = [
 ]
 
 Spot.create!(positions)
+
+(1..10).each_with_index do |user, i|
+  name = "tester#{i}"
+  password = "password#{1}"
+  email = "example#{i}@example.com"
+  User.create!(name: name, password: password, email: email)
+end
