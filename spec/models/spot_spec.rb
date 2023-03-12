@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Spot,type: :model do
+RSpec.describe Spot, type: :model do
   describe '#valid' do
     context '緯度が入力されていないとき' do
       let!(:spot) { FactoryBot.build(:spot, longitude: 123 ) }
