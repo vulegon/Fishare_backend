@@ -63,12 +63,22 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#save' do
-    let(:user) { FactoryBot.build(:user, email: email) }
+  describe '#save!' do
+    subject { user.save! }
+    let(:user) { FactoryBot.build(:user, email: email, password: password) }
+    let(:email) { 'example@example.com' }
+    let(:password) { 'password1' }
 
-    context 'emailは大文字小文字区別しないこと' do
+    context 'emailが大文字のとき' do
       let(:email) {'EXAMPLE@EXAMPLE.COM'}
-      it { expect{ user.save! }.to change { User.exists?(email: 'example@example.com') }.from(false).to(true) }
+      it '小文字でemailが保存されること' do
+        expect{ subject }.to change { User.exists?(email: 'example@example.com') }.from(false).to(true)
+      end
     end
+
+    it 'パスワードが暗号化されて保存されること' do
+      subject
+      expect(user.reload.valid_password?(password)).to be_truthy
+    end  
   end
 end
