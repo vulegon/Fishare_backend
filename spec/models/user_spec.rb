@@ -13,7 +13,7 @@ RSpec.describe User, type: :model do
 
     context 'nameが正しくないとき' do
       context 'nameが空欄のとき' do
-        let(:name) {  }
+        let(:name) {}
         it { expect(subject).to be_invalid }
       end
     end

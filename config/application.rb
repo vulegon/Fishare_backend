@@ -38,6 +38,5 @@ module Myapp
 
     # デフォルトのロケールを:en以外に変更する
     config.i18n.default_locale = :ja
-
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ::Users::Registrations::CreateParameter, type: :parameter do
+RSpec.describe Users::Registrations::CreateParameter, type: :parameter do
   describe '#valid' do
     subject { described_class.new(params) }
     let(:params) { ActionController::Parameters.new(name: name, email: email, password: password) }
