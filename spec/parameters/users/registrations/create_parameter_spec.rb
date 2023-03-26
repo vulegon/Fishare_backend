@@ -35,6 +35,11 @@ RSpec.describe Users::Registrations::CreateParameter, type: :parameter do
           let!(:user) { FactoryBot.create(:user, email: 'example@example.com') }
           it { expect(subject).to be_invalid }
         end
+
+        context 'メールアドレスのフォーマットが正しくないとき' do
+          let(:password) { 'user@example.' }
+          it { expect(subject).to be_invalid }
+        end
       end
 
       context 'パスワードが正しくないとき' do
@@ -50,6 +55,11 @@ RSpec.describe Users::Registrations::CreateParameter, type: :parameter do
 
         context 'パスワードの長さが128文字超えるとき' do
           let(:password) { '123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-abcdefghi' }
+          it { expect(subject).to be_invalid }
+        end
+
+        context 'パスワードのフォーマットが正しくないとき' do
+          let(:password) { 'password' }
           it { expect(subject).to be_invalid }
         end
       end
