@@ -3,7 +3,7 @@ module Users
     class << self
       # ユーザーを作成します
       # @param params[<Users::Registrations::CreateParameter>] ユーザー作成のパラメータ
-      # return user[<User>] 作成したユーザー
+      # @return user[<User>] 作成したユーザー
       def create!(params)
         user = User.create!(
           name: params.name,
