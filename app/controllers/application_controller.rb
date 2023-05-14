@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   rescue_from Exception, with: :render_500
 
   def render_500(error)
-    message =  'システムエラーが発生しました。管理者にお問い合わせください'
+    message =  error.message || 'システムエラーが発生しました。管理者にお問い合わせください'
     json = { message: message }
     render status: :internal_server_error, json: json
   end
