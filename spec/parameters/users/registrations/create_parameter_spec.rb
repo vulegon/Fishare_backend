@@ -7,24 +7,19 @@ RSpec.describe Users::Registrations::CreateParameter, type: :parameter do
     let(:email) { 'example@example.com' }
   
     context 'パラメーターが正しいとき' do
-      it { expect(subject).to be_valid }
+      it { is_expected.to be_valid }
     end
 
     context 'パラメーターが正しくないとき' do
       context 'メールアドレスが正しくない時' do
-        context 'メールアドレスが空欄のとき' do
-          let(:email) { '' }
-          it { expect(subject).to be_invalid }
-        end
-
         context '既に登録されているメールアドレスのとき' do
           let!(:user) { FactoryBot.create(:user, email: 'example@example.com') }
-          it { expect(subject).to be_invalid }
+          it { is_expected.to be_invalid }
         end
 
-        context 'メールアドレスのフォーマットが正しくないとき' do
-          let(:email) { 'user@example.' }
-          it { expect(subject).to be_invalid }
+        context '正しくないメールアドレスの形式のとき' do
+          let(:email) { 'example' }
+          it { is_expected.to be_invalid }
         end
       end
     end

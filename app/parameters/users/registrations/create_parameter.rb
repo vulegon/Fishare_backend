@@ -22,13 +22,13 @@ module Users
       def email_is_not_registered
         return if user.nil?
 
-        errors.add(:email, 'は既に登録されているメールアドレスです')
+        errors.add(:email, '既に登録されているメールアドレスです')
       end
 
       def email_must_be_valid_format
         return if email =~ ::User::VALID_EMAIL_REGEX
 
-        errors.add(:email, 'は正しいメールアドレスの形式ではありません')
+        errors.add(:email, '正しいメールアドレスの形式ではありません')
       end
     end
   end
