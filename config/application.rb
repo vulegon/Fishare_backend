@@ -12,6 +12,7 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
+require 'dotenv/load'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -35,6 +36,17 @@ module Myapp
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    
+    # config.action_mailer.default_url_options = { host: 'fishare-backend.fly.dev.com' }
+    #   config.action_mailer.delivery_method = :smtp
+    # config.action_mailer.smtp_settings = {
+    #   address: 'smtp.gmail.com',
+    #   domain: 'gmail.com',
+    #   port: 587,
+    #   user_name: ENV['GMAIL_USER_EMAIL'],
+    #   password: ENV['GMAIL_PASSWORD'],
+    #   authentication: :login
+    # }
 
     # デフォルトのロケールを:en以外に変更する
     config.i18n.default_locale = :ja

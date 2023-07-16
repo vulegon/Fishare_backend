@@ -9,7 +9,7 @@ module Users
           confirmation_token = ::User.set_email_confirmation
           user = User.new(email: params.email, confirmation_token: confirmation_token)
           user.save!(validate: false)
-          ::UserMailer.send_email_confirmation(user).deliver
+          ::UserMailer.registration_confirmation(user).deliver_later
         end
       end
     end
