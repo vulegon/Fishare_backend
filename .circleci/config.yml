@@ -37,7 +37,7 @@ jobs:
       RAILS_ENV: test
     steps:
       - setup
-      - run: bundle install
+      - run: rbenv install 3.1.1
       - run:
           name: rails db:migrate
           command: bundle exec rails db:migrate
