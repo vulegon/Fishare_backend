@@ -10,14 +10,15 @@ module Spots
     attribute :images, :binary
     attribute :latitude, :float
     attribute :longitude, :float
+    attribute :user_id, :string
 
     validate :position_must_be_exist
     validate :latitude_must_be_within_0_to_90_degrees
     validate :longitude_must_be_within_0_to_180_degrees
-
+    validate :user_id_must_be_exist
 
     def initialize(params)
-      super(params.permit(:latitude, :longitude, :description, images: []))
+      super(params.permit(:latitude, :longitude, :description, :user_id, images: []))
     end
 
     def model_attributes
@@ -44,6 +45,11 @@ module Spots
     def longitude_must_be_within_0_to_180_degrees
       return if LONGITUDE_RANGE.include?(longitude)
       errors.add(:latitude, '経度は-180°〜0〜+180°の間である必要があります')
+    end
+
+    def user_id_must_be_exist
+      return if user_id.present?
+      errors.add(:user_id, 'ログインされていません。再度ログインしてください。')
     end
   end
 end
