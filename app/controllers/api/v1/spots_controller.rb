@@ -6,11 +6,11 @@ module Api
       def index
         spots = Spot.all
 
-        json = { 
+        json = {
           message: '釣り場を取得しました',
           spots: spots,
         }
-        
+
         render status: :ok, json: json
       end
 
@@ -33,7 +33,7 @@ module Api
         json = {
           message: '釣り場を作成しました',
         }
-        
+
         render status: :ok, json: json
       end
     end
