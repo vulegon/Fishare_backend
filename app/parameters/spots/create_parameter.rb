@@ -27,6 +27,7 @@ module Spots
         images: images,
         latitude: latitude,
         longitude: longitude,
+        user_id: user_id,
       }
     end
 
