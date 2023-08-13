@@ -1,10 +1,11 @@
 module Api
   module V1
     class SpotsController < ApplicationController
-      # 釣り場一覧を取得します
+      # 釣り場を取得します
+      # 釣り場の緯度経度をJSONで返します。
       # GET /api/v1/spots
       def index
-        spots = Spot.all
+        spots = Spot.all.pluck(:latitude,:longitude)
 
         json = {
           message: '釣り場を取得しました',
