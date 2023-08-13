@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Spots::CreateParameter, type: :parameter do
-  let(:params) { ActionController::Parameters.new(description: description, images: images, latitude: latitude, longitude: longitude, user_id: user_id) }
+  let(:params) { ActionController::Parameters.new(description: description, images: images, str_latitude: latitude, str_longitude: longitude, user_id: user_id) }
   let(:description) { "適当な説明文" }
   let(:image_1) {
     ActionDispatch::Http::UploadedFile.new(
@@ -23,8 +23,8 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
     images << image_2
     images
   }
-  let(:latitude) { 36.15305354356379 }
-  let(:longitude) { 136.2725972414738 }
+  let(:latitude) { '36.15305354356379' }
+  let(:longitude) { '136.2725972414738' }
   let(:user_id) { "cognito_user" }
 
   describe "#valid" do
@@ -36,22 +36,22 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
 
     context "パラメーターが正しくないとき" do
       context "緯度が空の時" do
-        let(:latitude) { }
+        let(:latitude) { '' }
         it { should be_invalid }
       end
 
       context "経度が空の時" do
-        let(:longitude) { }
+        let(:longitude) { '' }
         it { should be_invalid }
       end
 
       context "緯度が-90°から90°の範囲ではない時" do
-        let(:latitude) { -91.00000000000000 }
+        let(:latitude) { '-91.00000000000000' }
         it { should be_invalid }
       end
 
       context "経度が-180°から180°の範囲ではない時" do
-        let(:longitude) { 181.00000000000000 }
+        let(:longitude) { '181.00000000000000' }
         it { should be_invalid }
       end
 
@@ -69,8 +69,8 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
       is_expected.to eq({
                        description: description,
                        images: images,
-                       latitude: latitude,
-                       longitude: longitude,
+                       latitude: latitude.to_f,
+                       longitude: longitude.to_f,
                        user_id: user_id,
                      })
     end

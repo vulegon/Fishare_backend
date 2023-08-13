@@ -15,15 +15,15 @@ RSpec.describe Api::V1::SpotsController, type: :request do
       post api_v1_spots_path, params: params
       response
     }
-    let(:params) { { description: description, images: images, latitude: latitude, longitude: longitude, user_id: user_id } }
+    let(:params) { { description: description, images: images, str_latitude: latitude, str_longitude: longitude, user_id: user_id } }
     let(:description) { '適当な説明文' }
     let(:image_1) { fixture_file_upload('spec/samples/images/ボルメテウス・サファイア・ドラゴン.jpg', 'image/png') }
     let(:image_2) { fixture_file_upload('spec/samples/images/勝利宣言 鬼丸「覇」.jpg', 'image/png') }
     let(:images) {
       images = [image_1, image_2]
      }
-    let(:latitude) { 36.15305354356379 }
-    let(:longitude) { 136.2725972414738 }
+    let(:latitude) { '36.15305354356379' }
+    let(:longitude) { '136.2725972414738' }
     let(:user_id) { 'cognito_user' }
 
 

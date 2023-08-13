@@ -15,12 +15,12 @@ module Api
       end
 
       # 釣り場を登録します
-      # POST /api/v1/spots
+      # POST api/v1/spots
       # @param [Float] latitude 緯度
       # @param [Float] longitude 経度
+      # @param [String] user_id ユーザーのID
       # @param option [String] description 釣り場の説明文
       # @param option [Array<ActionDispatch::Http::UploadedFile>] images 釣り場の画像
-      # @return [JSON] 実行結果
       def create
         create_params = Spots::CreateParameter.new(params)
 
