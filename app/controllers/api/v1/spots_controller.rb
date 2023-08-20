@@ -5,11 +5,13 @@ module Api
       # 釣り場の緯度経度をJSONで返します。
       # GET /api/v1/spots
       def index
-        spots = Spot.all.pluck(:latitude,:longitude)
+        spots = Spot.all
+
+        serialized_spots = SpotSerializer.new(spots).formatted_data
 
         json = {
           message: '釣り場を取得しました',
-          spots: spots,
+          spots: serialized_spots,
         }
 
         render status: :ok, json: json

@@ -7,6 +7,8 @@ RSpec.describe Api::V1::SpotsController, type: :request do
       get api_v1_spots_path
       response
     }
+    let!(:spot1) { FactoryBot.create(:spot) }
+    let!(:spot2) { FactoryBot.create(:spot) }
     it { is_expected.to have_http_status(:ok) }
   end
 
