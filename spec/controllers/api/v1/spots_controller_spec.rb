@@ -38,4 +38,23 @@ RSpec.describe Api::V1::SpotsController, type: :request do
       it { is_expected.to have_http_status(:bad_request) }
     end
   end
+
+  describe 'GET #index' do
+    subject {
+      get api_v1_spot_path, params: params
+      response
+    }
+
+    context 'when params is valid' do
+      let(:params) { { id: spot.id } }
+      let!(:spot1) { FactoryBot.create(:spot, :with_images) }
+
+      it { is_expected.to have_http_status(:ok) }
+    end
+
+    context 'when params is invalid' do
+      let(:params) { { id: SecureRandom.uuid } }
+      it { is_expected.to have_http_status(:bad_request) }
+    end
+  end
 end
