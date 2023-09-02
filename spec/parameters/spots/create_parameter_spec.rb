@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Spots::CreateParameter, type: :parameter do
-  let(:params) { ActionController::Parameters.new(description: description, images: images, str_latitude: latitude, str_longitude: longitude, user_id: user_id) }
+  let(:params) { ActionController::Parameters.new(description: description, images: images, str_latitude: latitude, str_longitude: longitude, user_id: user_id, name: name) }
   let(:description) { "適当な説明文" }
   let(:image_1) {
     ActionDispatch::Http::UploadedFile.new(
@@ -26,6 +26,7 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
   let(:latitude) { '36.15305354356379' }
   let(:longitude) { '136.2725972414738' }
   let(:user_id) { "cognito_user" }
+  let(:name) { "釣り場の名前" }
 
   describe "#valid" do
     subject { described_class.new(params) }
@@ -59,6 +60,11 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
         let(:user_id) { "" }
         it { should be_invalid }
       end
+
+      context "釣り場の名前が空の時" do
+        let(:name) { "" }
+        it { should be_invalid }
+      end
     end
   end
 
@@ -67,6 +73,7 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
 
     it "与えられたパラメーターがハッシュ形式で返ること" do
       is_expected.to eq({
+                       name: name,
                        description: description,
                        images: images,
                        latitude: latitude.to_f,
