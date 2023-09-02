@@ -17,7 +17,7 @@ RSpec.describe Api::V1::SpotsController, type: :request do
       post api_v1_spots_path, params: params
       response
     }
-    let(:params) { { description: description, images: images, str_latitude: latitude, str_longitude: longitude, user_id: user_id } }
+    let(:params) { { description: description, images: images, str_latitude: latitude, str_longitude: longitude, user_id: user_id, name: name } }
     let(:description) { '適当な説明文' }
     let(:image_1) { fixture_file_upload('spec/samples/images/ボルメテウス・サファイア・ドラゴン.jpg', 'image/png') }
     let(:image_2) { fixture_file_upload('spec/samples/images/勝利宣言 鬼丸「覇」.jpg', 'image/png') }
@@ -27,7 +27,7 @@ RSpec.describe Api::V1::SpotsController, type: :request do
     let(:latitude) { '36.15305354356379' }
     let(:longitude) { '136.2725972414738' }
     let(:user_id) { 'cognito_user' }
-
+    let(:name) { '釣り場1' }
 
     context 'when params is valid' do
       it { is_expected.to have_http_status(:ok) }
@@ -39,21 +39,21 @@ RSpec.describe Api::V1::SpotsController, type: :request do
     end
   end
 
-  describe 'GET #index' do
+  describe 'GET #show' do
     subject {
-      get api_v1_spot_path, params: params
+      get api_v1_spot_path(id)
       response
     }
 
     context 'when params is valid' do
-      let(:params) { { id: spot.id } }
-      let!(:spot1) { FactoryBot.create(:spot, :with_images) }
+      let(:id) { spot.id }
+      let!(:spot) { FactoryBot.create(:spot) }
 
       it { is_expected.to have_http_status(:ok) }
     end
 
     context 'when params is invalid' do
-      let(:params) { { id: SecureRandom.uuid } }
+      let(:id) { SecureRandom.uuid }
       it { is_expected.to have_http_status(:bad_request) }
     end
   end

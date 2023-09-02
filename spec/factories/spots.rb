@@ -4,6 +4,7 @@ FactoryBot.define do
     longitude { 136.2725972414738 }
     user_id { 'cognito_user' }
     description { "適当な説明文" }
+    name { '釣り場1' }
 
     trait :with_images do
       after(:build) do |spot|

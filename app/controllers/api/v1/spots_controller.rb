@@ -51,11 +51,13 @@ module Api
         end
 
         spot = detail_param.spot
+        name = spot.name
         description = spot.description
         image_urls = spot.image_urls
 
         json = {
           message: '釣り場の詳細を取得しました。',
+          name: name,
           description: description,
           images: image_urls
         }
