@@ -13,10 +13,11 @@ gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 gem "rspec-rails"
 gem "factory_bot_rails"
 gem 'devise'
+gem 'devise_token_auth'
+gem 'omniauth'
 gem 'rails-i18n'
 gem 'dotenv'
 gem 'pry-rails'
-gem 'rack-cors'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
