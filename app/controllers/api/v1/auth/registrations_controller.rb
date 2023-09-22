@@ -7,12 +7,11 @@ module Api
         private
 
         def sign_up_params
-          # サインアップ時に登録できるカラムを指定
           params.permit(:name, :email, :password, :password_confirmation)
         end
 
         # ユーザーデータが保存されているか確認し、保存されていれば新しいトークンを作成。
-        # ヘッダーに access-token と client を設定
+        # ヘッダーに access-token client uid を設定
         def set_token_info
           return unless @resource.persisted?
 

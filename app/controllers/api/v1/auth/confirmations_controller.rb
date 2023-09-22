@@ -13,11 +13,15 @@ module Api
           user.confirm
           sign_in(user)
 
-          json = {
-            message: 'ユーザーを認証しました',
-          }
+          redirect_path = if Rails.env.production?
+                            # 本番環境のみの処理
+                            'http://localhost:3000'
+                          else
+                            # 開発環境のみの処理
+                            'http://localhost:3000'
+                          end
 
-          render status: :ok, json: json
+          redirect_to redirect_path
         end
       end
     end
