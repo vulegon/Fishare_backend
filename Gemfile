@@ -29,5 +29,4 @@ group :development do
   gem 'rubocop-rails', require: false
 end
 
-
 gem "dockerfile-rails", ">= 1.5", :group => :development
