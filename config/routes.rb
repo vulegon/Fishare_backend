@@ -8,6 +8,9 @@ Rails.application.routes.draw do
         passwords: 'api/v1/auth/passwords',
         confirmations: 'api/v1/auth/confirmations'
       }
+      namespace :auth do
+        resources :sessions, only: %i[index]
+      end
     end
   end
 end
