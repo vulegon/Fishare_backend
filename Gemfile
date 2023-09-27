@@ -13,6 +13,8 @@ gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 gem "rspec-rails"
 gem "factory_bot_rails"
 gem 'devise'
+gem 'devise_token_auth'
+gem 'omniauth'
 gem 'rails-i18n'
 gem 'dotenv'
 gem 'pry-rails'
@@ -26,6 +28,5 @@ group :development do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
 end
-
 
 gem "dockerfile-rails", ">= 1.5", :group => :development

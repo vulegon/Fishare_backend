@@ -6,12 +6,14 @@ module Spots
     LATITUDE_RANGE = -90..90
     LONGITUDE_RANGE = -180..180
 
+    attribute :name, :string
     attribute :description, :string
     attribute :images, :binary
     attribute :str_latitude, :string
     attribute :str_longitude, :string
     attribute :user_id, :string
 
+    validate :name_must_be_exist
     validate :latitude_must_be_exist
     validate :longitude_must_be_exist
     validate :latitude_must_be_within_0_to_90_degrees
@@ -19,7 +21,7 @@ module Spots
     validate :user_id_must_be_exist
 
     def initialize(params)
-      super(params.permit(:str_latitude, :str_longitude, :description, :user_id, images: []))
+      super(params.permit(:str_latitude, :str_longitude, :description, :user_id, :name, images: []))
       @latitude = str_latitude.to_f
       @longitude = str_longitude.to_f
     end
@@ -28,6 +30,7 @@ module Spots
 
     def model_attributes
       {
+        name: name,
         description: description,
         images: images,
         latitude: latitude,
@@ -37,6 +40,11 @@ module Spots
     end
 
     private
+
+    def name_must_be_exist
+      return if name.present?
+      errors.add(:latitude, '釣り場の名前が未入力です')
+    end
 
     def latitude_must_be_exist
       return unless latitude.to_i.zero?

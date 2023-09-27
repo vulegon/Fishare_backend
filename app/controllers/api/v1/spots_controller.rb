@@ -39,6 +39,31 @@ module Api
 
         render status: :ok, json: json
       end
+
+      # 釣り場の詳細を取得します
+      # GET api/v1/spots/:id
+      # @param [String] id 釣り場のID
+      def show
+        detail_param = Spots::DetailParameter.new(params)
+
+        if detail_param.invalid?
+          render_parameter_error(detail_param) and return
+        end
+
+        spot = detail_param.spot
+        name = spot.name
+        description = spot.description
+        image_urls = spot.image_urls
+
+        json = {
+          message: '釣り場の詳細を取得しました。',
+          name: name,
+          description: description,
+          images: image_urls
+        }
+
+        render status: :ok, json: json
+      end
     end
   end
 end
