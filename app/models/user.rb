@@ -11,7 +11,13 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: NAME_MAXIMUM_LIMIT }
   validates :email, presence: true, uniqueness: true, format: { with: VALID_EMAIL_REGEX }
-  validates :password, presence: true, length: { minimum: 8, maximum: 128 }, format: { with: VALID_PASSWORD_REGEX }
+  validates :password, presence: true, length: { minimum: 8, maximum: 128 }, format: { with: VALID_PASSWORD_REGEX }, unless: :skip_password_validation
+  attr_accessor :skip_password_validation # パスワードバリデーションをスキップするためのフラグ
+  before_validation :skip_password_validation, on: :update #更新時のみバリデーション
+
+  def skip_password_validation
+    self.skip_password_validation = true
+  end
 
   scope :valid, -> { where(is_deleted: false) }
 end
