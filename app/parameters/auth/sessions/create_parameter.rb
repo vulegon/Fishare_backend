@@ -7,7 +7,8 @@ module Auth
       attribute :email, :string
       attribute :password, :string
 
-      validate :valid_email_and_password
+      validate :user_must_be_exist
+      validate :valid_password
 
       def initialize(params)
         super(params.permit(:email,:password))
@@ -18,8 +19,14 @@ module Auth
 
       private
 
-      def valid_email_and_password
-        return if user.valid_password?(password) && user.present?
+      def user_must_be_exist
+        return if user.present?
+        errors.add(:email, "メールアドレスまたはパスワードが間違っています") #メールアドレスかパスワードかのどっちが間違っているかは教えない
+      end
+
+      def valid_password
+        return if errors.key?(:email)
+        return if user.valid_password?(password)
         errors.add(:password, "メールアドレスまたはパスワードが間違っています") #メールアドレスかパスワードかのどっちが間違っているかは教えない
       end
     end
