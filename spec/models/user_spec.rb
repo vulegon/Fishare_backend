@@ -1,5 +1,11 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "#valid?" do
+    subject { FactoryBot.build(:user).valid? }
+
+    context "パラメーターが正しい時" do
+      it { should be_valid }
+    end
+  end
 end
