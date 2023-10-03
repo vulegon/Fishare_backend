@@ -1,0 +1,2 @@
+class SpotFishingType < ApplicationRecord
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_15_231546) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_03_155525) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,14 +42,43 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_15_231546) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "spots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.float "latitude", null: false
-    t.float "longitude", null: false
+  create_table "catchable_fishes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "spot_id", null: false
+    t.uuid "fish_id", null: false
+    t.boolean "is_deleted", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "fish", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fishing_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "spot_fishing_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "spot_id", null: false
+    t.uuid "fishing_type_id", null: false
+    t.boolean "is_deleted", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "spots", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.float "latitude", null: false
+    t.float "longitude", null: false
     t.string "description"
-    t.string "user_id", null: false
-    t.string "name"
+    t.uuid "user_id"
+    t.boolean "is_deleted", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -83,4 +112,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_15_231546) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "catchable_fishes", "fish"
+  add_foreign_key "catchable_fishes", "spots"
+  add_foreign_key "spot_fishing_types", "fishing_types"
+  add_foreign_key "spot_fishing_types", "spots"
+  add_foreign_key "spots", "users"
 end

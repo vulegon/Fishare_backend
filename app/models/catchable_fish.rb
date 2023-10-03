@@ -1,0 +1,2 @@
+class CatchableFish < ApplicationRecord
+end
