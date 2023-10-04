@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_03_162607) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_04_224632) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,6 +62,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_162607) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "locations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "spot_fishing_types", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "spot_id", null: false
     t.uuid "fishing_type_id", null: false
@@ -79,6 +85,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_162607) do
     t.boolean "is_deleted", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "location_id", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -116,5 +123,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_162607) do
   add_foreign_key "catchable_fishes", "spots"
   add_foreign_key "spot_fishing_types", "fishing_types"
   add_foreign_key "spot_fishing_types", "spots"
+  add_foreign_key "spots", "locations"
   add_foreign_key "spots", "users"
 end

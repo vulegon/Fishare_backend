@@ -1,4 +1,5 @@
 class Spot < ApplicationRecord
+  enum location: { sea: '海', river: '川' }
   has_many_attached :images
   validates :latitude, presence: true
   validates :longitude, presence: true
