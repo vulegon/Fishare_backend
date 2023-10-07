@@ -20,13 +20,6 @@ module Api
 
       # 釣り場を登録します
       # POST api/v1/spots
-      # @param [String] name 釣り場の名前
-      # @param [String] latitude 緯度
-      # @param [String] longitude 経度
-      # @param [String] description 釣り場の説明文
-      # @param [Array<String>] fish 釣れる魚
-      # @param [String] fishing_type 釣りの種類
-      # @param option [Array<ActionDispatch::Http::UploadedFile>] images 釣り場の画像
       def create
         create_params = Spots::CreateParameter.new(params)
 

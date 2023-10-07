@@ -1,3 +1,4 @@
 class Location < ApplicationRecord
-  LOCATIONS = ["海釣り","川釣り"]
+  # 釣り場の種類
+  NAMES = ["海釣り","川釣り"]
 end

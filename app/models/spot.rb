@@ -1,6 +1,11 @@
 class Spot < ApplicationRecord
-  enum location: { sea: '海', river: '川' }
+  # 釣り場のモデル
+  LATITUDE_RANGE = -90..90
+  LONGITUDE_RANGE = -180..180
+  belongs_to :user
+  belongs_to :location
   has_many_attached :images
+
   validates :latitude, presence: true
   validates :longitude, presence: true
 
