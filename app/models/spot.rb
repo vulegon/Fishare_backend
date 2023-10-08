@@ -5,6 +5,10 @@ class Spot < ApplicationRecord
   belongs_to :user
   belongs_to :location
   has_many_attached :images
+  has_many :spot_fishing_types
+  has_many :fishing_types, :through => :spot_fishing_types
+  has_many :catchable_fishes
+  has_many :fish, :through => :catchable_fishes
 
   validates :latitude, presence: true
   validates :longitude, presence: true

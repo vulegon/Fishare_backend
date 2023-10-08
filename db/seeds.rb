@@ -7,8 +7,11 @@ ActiveRecord::Base.transaction do
   end
 end
 
-fish = FISH::NAMES.map { |fish_name| Fish.new(name: fish_name) }
+fish = Fish::NAMES.map { |fish_name| Fish.new(name: fish_name) }
 Fish.import fish
 
 fishing_types = FishingType::NAMES.map { |fishing_type_name| FishingType.new(name: fishing_type_name) }
 FishingType.import fishing_types
+
+locations = Location::NAMES.map { |location_name| Location.new(name: location_name) }
+Location.import locations

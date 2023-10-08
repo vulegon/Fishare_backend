@@ -1,5 +1,7 @@
 class FishingType < ApplicationRecord
   # 釣りの種類
+  has_many :spot_fishing_types
+  has_many :spots, through: :spot_fishing_types
   NAMES = [
     "サビキ釣り",
     "穴釣り",

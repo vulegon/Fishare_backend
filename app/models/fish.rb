@@ -1,5 +1,8 @@
 class Fish < ApplicationRecord
   # 魚のマスターを格納するモデル
+  has_many :catchable_fishes
+  has_many :spots, through: :catchable_fishes
+
   NAMES = [
     "カサゴ",
     "ニジマス",
