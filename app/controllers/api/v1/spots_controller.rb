@@ -1,6 +1,7 @@
 module Api
   module V1
     class SpotsController < ApplicationController
+      before_action :authenticate_api_v1_user!, only: [:create]
       # 釣り場を取得します
       # 釣り場の緯度経度をJSONで返します。
       # GET /api/v1/spots
@@ -10,7 +11,7 @@ module Api
         serialized_spots = SpotSerializer.new(spots).formatted_data
 
         json = {
-          message: '釣り場を取得しました',
+          message: "釣り場を取得しました",
           spots: serialized_spots,
         }
 
@@ -19,22 +20,18 @@ module Api
 
       # 釣り場を登録します
       # POST api/v1/spots
-      # @param [Float] latitude 緯度
-      # @param [Float] longitude 経度
-      # @param [String] user_id ユーザーのID
-      # @param option [String] description 釣り場の説明文
-      # @param option [Array<ActionDispatch::Http::UploadedFile>] images 釣り場の画像
       def create
-        create_params = Spots::CreateParameter.new(params)
+        create_params = Spots::CreateParameter.new(params, current_api_v1_user)
 
         if create_params.invalid?
           render_parameter_error(create_params) and return
         end
 
-        SpotService.create_spot!(create_params)
+        spot = SpotService.create_spot!(create_params)
 
         json = {
-          message: '釣り場を作成しました',
+          message: "釣り場を作成しました",
+          spot: spot,
         }
 
         render status: :ok, json: json
@@ -56,10 +53,10 @@ module Api
         image_urls = spot.image_urls
 
         json = {
-          message: '釣り場の詳細を取得しました。',
+          message: "釣り場の詳細を取得しました。",
           name: name,
           description: description,
-          images: image_urls
+          images: image_urls,
         }
 
         render status: :ok, json: json

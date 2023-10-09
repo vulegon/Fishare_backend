@@ -8,8 +8,9 @@ class User < ApplicationRecord
   NAME_MAXIMUM_LIMIT = 10
   PASSWORD_MINIMUM_LIMIT = 8
   PASSWORD_MAXIMUM_LIMIT = 128
-  before_save { self.email = self.email.downcase }
+  has_many :spots
 
+  before_save { self.email = self.email.downcase }
   validates :name, presence: true, length: { maximum: NAME_MAXIMUM_LIMIT }
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: VALID_EMAIL_REGEX }
   validates :password, presence: true, length: { minimum: 8, maximum: 128 }, format: { with: VALID_PASSWORD_REGEX }, unless: :skip_password_validation

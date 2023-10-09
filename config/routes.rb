@@ -9,6 +9,7 @@ Rails.application.routes.draw do
                 confirmations: "api/v1/auth/confirmations",
               }
       resources :users, only: %i[index]
+      resources :fish, only: %i[index]
     end
   end
 end
