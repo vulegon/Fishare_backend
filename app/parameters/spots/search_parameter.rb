@@ -12,7 +12,7 @@ module Spots
 
     validate :latitude_and_longitude_must_be_exist
 
-    def initialize(params, current_user)
+    def initialize(params)
       super(params.permit(:latitude, :longitude, :location, :name, fishing_types: [], fish: []))
     end
 

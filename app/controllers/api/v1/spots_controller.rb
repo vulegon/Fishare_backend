@@ -6,7 +6,7 @@ module Api
       # 釣り場の緯度経度をJSONで返します。
       # GET /api/v1/spots
       def index
-        search_params = Spot::SearchParameter.new(params)
+        search_params = Spots::SearchParameter.new(params)
 
         spots = SpotFinder.new.search(search_params)
 
