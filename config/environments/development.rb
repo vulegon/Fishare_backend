@@ -66,7 +66,7 @@ Rails.application.configure do
     authentication: 'plain',
     enable_starttls_auto: true
   }
-
+  Rails.application.routes.default_url_options[:host] = 'localhost:3001'
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

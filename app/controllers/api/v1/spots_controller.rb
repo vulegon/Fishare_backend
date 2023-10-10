@@ -6,9 +6,11 @@ module Api
       # 釣り場の緯度経度をJSONで返します。
       # GET /api/v1/spots
       def index
-        spots = Spot.all
+        search_params = Spot::SearchParameter.new(params)
 
-        serialized_spots = SpotSerializer.new(spots).formatted_data
+        spots = SpotFinder.new.search(search_params)
+
+        serialized_spots = Spots::SpotSerializer.new(spots).serialize_spots
 
         json = {
           message: "釣り場を取得しました",
