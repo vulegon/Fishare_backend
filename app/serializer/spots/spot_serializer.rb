@@ -12,8 +12,8 @@ module Spots
         serialized_spot = {
           id: spot.id,
           name: spot.name,
-          latitude: spot.latitude,
-          longitude: spot.longitude,
+          lat: spot.latitude,
+          lng: spot.longitude,
           description: spot.description,
           location: location_by_spot_id(spot.id),
           fish: fish_by_spot_id(spot.id),
