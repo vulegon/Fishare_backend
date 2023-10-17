@@ -5,7 +5,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   VALID_PASSWORD_REGEX = /\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])\z/
-  NAME_MAXIMUM_LIMIT = 10
+  NAME_MAXIMUM_LIMIT = 20
   PASSWORD_MINIMUM_LIMIT = 8
   PASSWORD_MAXIMUM_LIMIT = 128
 
@@ -20,6 +20,10 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 8, maximum: 128 }, format: { with: VALID_PASSWORD_REGEX, message: :invalid_password_format }, unless: :skip_password_validation
 
   before_validation :skip_password_validation, on: :update #更新時のみバリデーション
+
+  after_initialize do
+    self.skip_password_validation = false
+  end
 
   def skip_password_validation
     self.skip_password_validation = true
