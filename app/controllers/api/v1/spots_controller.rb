@@ -50,15 +50,21 @@ module Api
         end
 
         spot = detail_param.spot
-        name = spot.name
-        description = spot.description
-        image_urls = spot.image_urls
+        editable = if current_api_v1_user
+            spot.user_id == current_api_v1_user.id
+          else
+            false
+          end
 
         json = {
-          message: "釣り場の詳細を取得しました。",
-          name: name,
-          description: description,
-          images: image_urls,
+          message: "釣り場の詳細を取得しました",
+          name: spot.name,
+          description: spot.description,
+          location: spot.location.name,
+          fish: spot.fish,
+          fishing_types: spot.fishing_types,
+          images: spot.image_urls,
+          editable: editable,
         }
 
         render status: :ok, json: json
