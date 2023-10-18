@@ -8,11 +8,11 @@ RSpec.describe User, type: :model do
     let(:password_confirmation) { password }
     let(:email) { "user@example.com" }
 
-    context "パラメーターが正しい時" do
+    context "属性が正しい時" do
       it { should be_valid }
     end
 
-    context "パラメーターが間違っている時" do
+    context "属性が間違っている時" do
       context "名前が間違っているとき" do
         context "空欄のとき" do
           let(:name) { nil }
