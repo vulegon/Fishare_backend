@@ -2,9 +2,10 @@ require "rails_helper"
 
 RSpec.describe User, type: :model do
   describe "#valid?" do
-    subject { FactoryBot.build(:user, name: name, email: email, password: password) }
+    subject { FactoryBot.build(:user, name: name, email: email, password: password, password_confirmation: password_confirmation) }
     let(:name) { "test_user1" }
     let(:password) { "Password1" }
+    let(:password_confirmation) { password }
     let(:email) { "user@example.com" }
 
     context "パラメーターが正しい時" do
@@ -31,8 +32,25 @@ RSpec.describe User, type: :model do
         end
 
         context "形式が誤っているとき" do
-          let(:email) { "123@example." }
-          it { should be_invalid }
+          context "@が含まれていないとき" do
+            let(:email) { "123example.com" }
+            it { should be_invalid }
+          end
+
+          context "@より前に文字がないとき" do
+            let(:email) { "@example.com" }
+            it { should be_invalid }
+          end
+
+          context "@より後にピリオドが含まれていないとき" do
+            let(:email) { "123@examplecom" }
+            it { should be_invalid }
+          end
+
+          context "@より後のピリオドに1つの英小文字が含まれていないとき" do
+            let(:email) { "123@example." }
+            it { should be_invalid }
+          end
         end
 
         context "既に同じメールアドレスが登録されているとき" do
@@ -54,7 +72,7 @@ RSpec.describe User, type: :model do
           end
 
           context "128文字以上のとき" do
-            let(:password) { "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789" }
+            let(:password) { "1234567890" * 12 + "123456789" }
             it { should be_invalid }
           end
         end
@@ -72,8 +90,20 @@ RSpec.describe User, type: :model do
 
           context "数字が含まれていないとき" do
             let(:password) { "Passwordd" }
-            it { should be_invalid }
+            it { expect(subject).to be_invalid  }
           end
+        end
+      end
+
+      context "確認用パスワードが間違っているとき" do
+        context "空欄のとき" do
+          let(:password_confirmation) { nil }
+          it { should be_invalid }
+        end
+
+        context "パスワードの入力値と一致していないとき" do
+          let(:password_confirmation) { "PAssword1" }
+          it { should be_invalid }
         end
       end
     end
