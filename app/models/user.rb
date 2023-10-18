@@ -17,7 +17,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: NAME_MAXIMUM_LIMIT }
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX, message: :invalid_email_format }, uniqueness: { case_sensitive: false }
-  validates :password, format: { with: VALID_PASSWORD_REGEX, message: :invalid_password_format }, confirmation: true, length: { minimum: 8, maximum: 128 }, unless: :skip_password_validation
+  validates :password, presence: true, format: { with: VALID_PASSWORD_REGEX, message: :invalid_password_format }, confirmation: true, length: { minimum: 8, maximum: 128 }, unless: :skip_password_validation
   validates :password_confirmation, presence: true, if: :password_required?
 
   before_validation :skip_password_validation, on: :update #更新時のみバリデーション

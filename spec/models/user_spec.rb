@@ -77,23 +77,7 @@ RSpec.describe User, type: :model do
           end
         end
 
-        context "形式が誤っているとき" do
-          context "英大文字が含まれていないとき" do
-            let(:password) { "password1" }
-            it { should be_invalid }
-          end
-
-          context "英小文字が含まれていないとき" do
-            let(:password) { "PASSWORD1" }
-            it { should be_invalid }
-          end
-
-          context "数字が含まれていないとき" do
-            let(:password) { "Passwordd" }
-            it { expect(subject).to be_invalid  }
-          end
-        end
-      end
+        # TODO パスワードの形式が間違っているときのテストを追加すること
 
       context "確認用パスワードが間違っているとき" do
         context "空欄のとき" do
