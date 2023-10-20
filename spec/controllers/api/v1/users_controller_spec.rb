@@ -8,11 +8,12 @@ RSpec.describe Api::V1::UsersController, type: :request do
     }
     let(:user) { FactoryBot.create(:user) }
     let(:auth_headers) { user.create_new_auth_token }
+    let(:json) { JSON.parse(response.body) }
 
     context "ログインしているとき" do
       it {
         should have_http_status(:ok)
-        expect(JSON.parse(response.body)["is_login"]).to eq(true)
+        expect(json["user"]["id"]).to eq(user.id)
       }
     end
 
@@ -21,7 +22,7 @@ RSpec.describe Api::V1::UsersController, type: :request do
 
       it {
         is_expected.to have_http_status(:ok)
-        expect(JSON.parse(response.body)["is_login"]).to eq(false)
+        expect(json["user"]).to eq(nil)
       }
     end
   end
