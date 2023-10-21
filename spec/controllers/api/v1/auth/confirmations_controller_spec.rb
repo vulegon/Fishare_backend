@@ -12,6 +12,7 @@ RSpec.describe Api::V1::Auth::ConfirmationsController, type: :request do
       let!(:user) { FactoryBot.create(:user) }
       let(:confirmation_token) { user.confirmation_token }
       it {
+        expect { subject }.to change { user.reload.confirmed_at.present? }.from(false).to(true)
         should have_http_status(:found)
       }
     end
