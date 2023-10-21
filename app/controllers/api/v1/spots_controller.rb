@@ -61,8 +61,8 @@ module Api
           name: spot.name,
           description: spot.description,
           location: spot.location.name,
-          fish: spot.fish,
-          fishing_types: spot.fishing_types,
+          fish: spot.fish.pluck(:name),
+          fishing_types: spot.fishing_types.pluck(:name),
           images: spot.image_urls,
           editable: editable,
         }
