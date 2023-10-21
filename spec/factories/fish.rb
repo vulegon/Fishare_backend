@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :fish do
-    name { "MyString" }
+    name { "テスト魚1" }
   end
 end

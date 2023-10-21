@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :fishing_type do
-    name { "MyString" }
+    name { "釣りの種類テスト" }
   end
 end
