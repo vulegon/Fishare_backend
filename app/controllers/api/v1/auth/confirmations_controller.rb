@@ -21,7 +21,7 @@ module Api
                             'http://localhost:3000'
                           end
 
-          redirect_to redirect_path
+          redirect_to(redirect_path, allow_other_host: true)
         end
       end
     end
