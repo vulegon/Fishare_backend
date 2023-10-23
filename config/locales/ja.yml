@@ -127,6 +127,8 @@ ja:
       too_short: "%{attribute}は%{count}文字以上で入力してください"
       wrong_length: "%{attribute}は%{count}文字で入力してください"
       other_than: "%{attribute}は%{count}以外の値にしてください"
+      invalid_email_format: "%{attribute}の形式が正しくありません。@より前・後に文字が存在しないか、@のドット「.」以降に小文字の英字が存在しない可能性があります"
+      invalid_password_format: "%{attribute}の形式が正しくありません。英字の小文字と大文字、および数字を各1つ以上含む必要があります"
     template:
       body: "次の項目を確認してください"
       header:
