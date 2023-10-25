@@ -45,10 +45,8 @@ services:
     ports:
       - 8080:80
     volumes:
-      - .:/myapp
       - public-data:/myapp/public
       - tmp-data:/myapp/tmp
-      - ./containers/nginx/nginx.conf:/etc/nginx/nginx.conf
 volumes:
   public-data:
   tmp-data:
