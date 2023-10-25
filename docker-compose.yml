@@ -33,21 +33,15 @@ services:
     build: .
     command: bundle exec puma -C config/puma.rb -e production
     volumes:
-      - .:/myapp
-      - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
-      - log-data:/myapp/log
+      - ./workspace:/var/www
     ports:
       - "3001:3000"
   web:
     build:
       context: containers/nginx
-    volumes:
-      - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
     ports:
-      - 80:80
-volumes:
-  public-data:
-  tmp-data:
-  log-data:
+      - 8080:80
+    volumes:
+      - ./workspace:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
