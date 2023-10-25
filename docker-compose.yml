@@ -43,7 +43,7 @@ services:
     build:
       context: containers/nginx
     ports:
-      - 8080:80
+      - 80:80
     volumes:
       - public-data:/myapp/public
       - tmp-data:/myapp/tmp
