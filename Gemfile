@@ -19,7 +19,6 @@ gem 'rails-i18n'
 gem 'dotenv'
 gem 'pry-rails'
 gem 'activerecord-import'
-gem 'paranoia'
 
 group :production do
   gem 'unicorn'

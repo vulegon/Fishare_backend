@@ -21,8 +21,6 @@ class Spot < ApplicationRecord
   validate :latitude_within_range
   validate :longitude_within_range
 
-  scope :valid, -> { where(is_deleted: false) }
-
   # 釣り場に紐づく画像のURLを返します。
   def image_urls
     images.map { |image| Rails.application.routes.url_helpers.url_for(image) }
