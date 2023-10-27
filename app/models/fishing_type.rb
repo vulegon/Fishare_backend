@@ -1,5 +1,5 @@
 class FishingType < ApplicationRecord
-  # 釣りの種類
+  # 釣りの種類を格納するモデル
   has_many :spot_fishing_types
   has_many :spots, through: :spot_fishing_types
   NAMES = [

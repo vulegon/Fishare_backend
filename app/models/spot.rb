@@ -1,5 +1,5 @@
 class Spot < ApplicationRecord
-  # 釣り場のモデル
+  # 釣り場を表すモデル
   LATITUDE_RANGE = -90..90
   LONGITUDE_RANGE = -180..180
   NAME_MAXIMUM_LIMIT = 300
