@@ -149,6 +149,8 @@ GEM
       rack-protection
     orm_adapter (0.5.0)
     parallel (1.23.0)
+    paranoia (2.6.3)
+      activerecord (>= 5.1, < 7.2)
     parser (3.2.2.4)
       ast (~> 2.4.1)
       racc
@@ -284,6 +286,7 @@ DEPENDENCIES
   dotenv
   factory_bot_rails
   omniauth
+  paranoia
   pg (~> 1.4.5)
   pry-rails
   puma (~> 5.6.5)

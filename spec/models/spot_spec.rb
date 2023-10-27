@@ -64,4 +64,13 @@ RSpec.describe Spot, type: :model do
       end
     end
   end
+
+  describe "#image_urls" do
+    subject { FactoryBot.build(:spot).image_urls }
+
+    it "imageのURLが返ってくること" do
+      expect(subject.length).to eq(2)
+      expect(subject).to all(match(Rails.application.routes.default_url_options[:host]))
+    end
+  end
 end
