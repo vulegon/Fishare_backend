@@ -12,7 +12,7 @@ module Auth
 
       def initialize(params)
         super(params.permit(:email,:password))
-        @user = User.valid.find_by(email: params[:email])
+        @user = User.find_by(email: params[:email])
       end
 
       attr_reader :user

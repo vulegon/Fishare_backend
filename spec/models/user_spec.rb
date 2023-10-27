@@ -78,6 +78,23 @@ RSpec.describe User, type: :model do
         end
 
         # TODO パスワードの形式が間違っているときのテストを追加すること
+        # context "形式が間違っているとき" do
+        #   context "大文字が入っていないとき" do
+        #     let(:password) { "password1" }
+        #     it { should be_invalid }
+        #   end
+
+        #   context "小文字が存在しないとき" do
+        #     let(:password) { "PASSWORD1" }
+        #     it { should be_invalid }
+        #   end
+
+        #   context "数字が存在しないとき" do
+        #     let(:password) { "Passwordd" }
+        #     it { should be_invalid }
+        #   end
+        # end
+      end
 
       context "確認用パスワードが間違っているとき" do
         context "空欄のとき" do
@@ -95,7 +112,7 @@ RSpec.describe User, type: :model do
 
   describe "#skip_password_validation" do
     subject { user.skip_password_validation }
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { FactoryBot.build(:user) }
     it { expect(subject).to eq(true) }
   end
 end

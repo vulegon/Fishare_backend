@@ -29,6 +29,4 @@ class User < ApplicationRecord
   def skip_password_validation
     self.skip_password_validation = true
   end
-
-  scope :valid, -> { where(is_deleted: false) }
 end

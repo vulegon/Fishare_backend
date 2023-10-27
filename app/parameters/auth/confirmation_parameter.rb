@@ -9,7 +9,7 @@ module Auth
 
     def initialize(params)
       super(params.permit(:confirmation_token))
-      @user = User.valid.find_by_confirmation_token(params[:confirmation_token])
+      @user = User.find_by_confirmation_token(params[:confirmation_token])
     end
 
     attr_reader :user

@@ -6,7 +6,6 @@ FactoryBot.define do
     longitude { 136.22288055523217 }
     location_id { FactoryBot.create(:location).id }
     user_id { FactoryBot.create(:user).id }
-    is_deleted { false }
 
     after(:build) do |spot|
       spot.images.attach(
