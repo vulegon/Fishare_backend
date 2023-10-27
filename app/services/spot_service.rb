@@ -18,5 +18,29 @@ class SpotService
         end
       end
     end
+
+    # 釣り場を削除します
+    # @param params[<Spots::DestroyParameter>] 釣り場削除のパラメータ
+    # @return void
+    def destroy_spot!(params)
+      ActiveRecord::Base.transaction do
+        spot = params.spot
+        spot.update!(is_deleted: true)
+        spot.fish.update_all(is_deleted: true)
+        spot.fishing_types.update_all(is_deleted: true)
+      end
+    end
+
+    # 釣り場を更新します
+    # @param params[<Spots::UpdateParameter>] 釣り場削除のパラメータ
+    # @return void
+    def update_spot!(params)
+      ActiveRecord::Base.transaction do
+        spot = params.spot
+        spot.update!(is_deleted: true)
+        spot.fish.update_all(is_deleted: true)
+        spot.fishing_types.update_all(is_deleted: true)
+      end
+    end
   end
 end

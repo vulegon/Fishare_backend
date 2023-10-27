@@ -4,6 +4,8 @@ FactoryBot.define do
     description { "説明" }
     latitude { 36.063053704526226 }
     longitude { 136.22288055523217 }
+    location_id { FactoryBot.create(:location).id }
+    user_id { FactoryBot.create(:user).id }
     is_deleted { false }
 
     after(:build) do |spot|
