@@ -37,8 +37,6 @@ services:
       - public-data:/myapp/public
       - tmp-data:/myapp/tmp
       - log-data:/myapp/log
-    ports:
-      - "3001:3000"
   web:
     build:
       context: containers/nginx
