@@ -1,10 +1,10 @@
 module Api
   module V1
     class SpotsController < ApplicationController
-      before_action :authenticate_api_v1_user!, only: [:create]
+      before_action :authenticate_api_v1_user!, only: [:create, :destroy, :update]
+
       # 釣り場を取得します
       # 釣り場の緯度経度をJSONで返します。
-      # GET /api/v1/spots
       def index
         search_params = Spots::SearchParameter.new(params)
 
@@ -21,7 +21,6 @@ module Api
       end
 
       # 釣り場を登録します
-      # POST api/v1/spots
       def create
         create_params = Spots::CreateParameter.new(params, current_api_v1_user)
 
@@ -40,8 +39,6 @@ module Api
       end
 
       # 釣り場の詳細を取得します
-      # GET api/v1/spots/:id
-      # @param [String] id 釣り場のID
       def show
         detail_param = Spots::DetailParameter.new(params)
 
@@ -65,6 +62,40 @@ module Api
           fishing_types: spot.fishing_types.pluck(:name),
           images: spot.image_urls,
           editable: editable,
+        }
+
+        render status: :ok, json: json
+      end
+
+      # 釣り場を更新します
+      def update
+        update_params = Spots::UpdateParameter.new(params, current_api_v1_user)
+
+        if update_params.invalid?
+          render_parameter_error(update_params) and return
+        end
+
+        SpotService.update_spot!(update_params)
+
+        json = {
+          message: "釣り場を削除しました",
+        }
+
+        render status: :ok, json: json
+      end
+
+      # 釣り場を削除します
+      def destroy
+        destroy_params = Spots::DestroyParameter.new(params, current_api_v1_user)
+
+        if destroy_params.invalid?
+          render_parameter_error(destroy_params) and return
+        end
+
+        SpotService.destroy_spot!(destroy_params)
+
+        json = {
+          message: "釣り場を削除しました",
         }
 
         render status: :ok, json: json

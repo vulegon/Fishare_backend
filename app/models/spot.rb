@@ -1,5 +1,5 @@
 class Spot < ApplicationRecord
-  # 釣り場のモデル
+  # 釣り場を表すモデル
   LATITUDE_RANGE = -90..90
   LONGITUDE_RANGE = -180..180
   NAME_MAXIMUM_LIMIT = 300
@@ -8,9 +8,9 @@ class Spot < ApplicationRecord
   belongs_to :user
   belongs_to :location
   has_many_attached :images
-  has_many :spot_fishing_types
+  has_many :spot_fishing_types, dependent: :destroy
   has_many :fishing_types, :through => :spot_fishing_types
-  has_many :catchable_fishes
+  has_many :catchable_fishes, dependent: :destroy
   has_many :fish, :through => :catchable_fishes
 
   validates :name, presence: true, length: { maximum: NAME_MAXIMUM_LIMIT }
@@ -20,8 +20,6 @@ class Spot < ApplicationRecord
 
   validate :latitude_within_range
   validate :longitude_within_range
-
-  scope :valid, -> { where(is_deleted: false) }
 
   # 釣り場に紐づく画像のURLを返します。
   def image_urls

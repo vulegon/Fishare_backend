@@ -14,11 +14,12 @@ module Api
           user.skip_password_validation
           token = user.create_new_auth_token
           response.headers.merge!(token)
+
           json = {
             message: "ログインしました"
           }
 
-          render json: json, status: :ok
+          render status: :ok, json: json
         end
 
         # ログアウト
@@ -30,10 +31,11 @@ module Api
           current_api_v1_user.tokens = {}
           current_api_v1_user.save
 
-          render json: {
-            status: 200,
-            message: "ログアウトしました",
+          json = {
+            message: "ログアウトしました"
           }
+
+          render status: :ok, json: json
         end
       end
     end

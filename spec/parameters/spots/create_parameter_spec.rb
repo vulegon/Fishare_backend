@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Spots::CreateParameter, type: :parameter do
-  let(:params) { ActionController::Parameters.new(description: description, images: images, str_latitude: latitude, str_longitude: longitude, user_id: user_id, name: name) }
+  let(:params) { ActionController::Parameters.new(description: description, images: images, str_latitude: latitude, str_longitude: longitude, name: name, location: location.name, fish: fish, fishing_types: fishing_types) }
   let(:description) { "適当な説明文" }
   let(:image_1) {
     ActionDispatch::Http::UploadedFile.new(
@@ -17,19 +17,21 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
       tempfile: File.open(Rails.root.join("spec", "samples", "images", "勝利宣言 鬼丸「覇」.jpg")),
     )
   }
-  let(:images) {
-    images = []
-    images << image_1
-    images << image_2
-    images
-  }
-  let(:latitude) { '36.15305354356379' }
-  let(:longitude) { '136.2725972414738' }
-  let(:user_id) { "cognito_user" }
+  let(:images) { [image_1, image_2] }
+  let(:latitude) { "36.15305354356379" }
+  let(:longitude) { "136.2725972414738" }
   let(:name) { "釣り場の名前" }
+  let(:user) { FactoryBot.create(:user) }
+  let(:location) { FactoryBot.create(:location, name: "海釣り") }
+  let(:fish_1) { FactoryBot.create(:fish, name: "魚1") }
+  let(:fish_2) { FactoryBot.create(:fish, name: "魚2") }
+  let(:fish) { [fish_1.name, fish_2.name] }
+  let(:fishing_type_1) { FactoryBot.create(:fishing_type) }
+  let(:fishing_type_2) { FactoryBot.create(:fishing_type) }
+  let(:fishing_types) { [fishing_type_1.name, fishing_type_2.name] }
 
   describe "#valid" do
-    subject { described_class.new(params) }
+    subject { described_class.new(params, user) }
 
     context "パラメーターが正しいとき" do
       it { should be_valid }
@@ -37,27 +39,22 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
 
     context "パラメーターが正しくないとき" do
       context "緯度が空の時" do
-        let(:latitude) { '' }
+        let(:latitude) { "" }
         it { should be_invalid }
       end
 
       context "経度が空の時" do
-        let(:longitude) { '' }
+        let(:longitude) { "" }
         it { should be_invalid }
       end
 
       context "緯度が-90°から90°の範囲ではない時" do
-        let(:latitude) { '-91.00000000000000' }
+        let(:latitude) { "-91.00000000000000" }
         it { should be_invalid }
       end
 
       context "経度が-180°から180°の範囲ではない時" do
-        let(:longitude) { '181.00000000000000' }
-        it { should be_invalid }
-      end
-
-      context "user_idが空の時" do
-        let(:user_id) { "" }
+        let(:longitude) { "181.00000000000000" }
         it { should be_invalid }
       end
 
@@ -65,11 +62,13 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
         let(:name) { "" }
         it { should be_invalid }
       end
+
+      # TODO バリデーションを追加すること
     end
   end
 
   describe "#model_attributes" do
-    subject { described_class.new(params).model_attributes }
+    subject { described_class.new(params, user).model_attributes }
 
     it "与えられたパラメーターがハッシュ形式で返ること" do
       is_expected.to eq({
@@ -78,7 +77,7 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
                        images: images,
                        latitude: latitude.to_f,
                        longitude: longitude.to_f,
-                       user_id: user_id,
+                       location_id: location.id,
                      })
     end
   end

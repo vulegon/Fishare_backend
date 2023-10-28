@@ -16,7 +16,7 @@ class SpotFinder
   end
 
   def base_query
-    Spot.all.valid
+    Spot.all
   end
 
   def by_spot_name(query, name)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SpotSerializer do
+RSpec.describe Spots::SpotSerializer do
   describe '#formatted_data' do
     subject { described_class.new(spots).formatted_data }
     let!(:spot_1) { FactoryBot.create(:spot, latitude: 34.0, longitude: 130.0, name: "釣り場1") }

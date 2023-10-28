@@ -1,5 +1,6 @@
 class Fish < ApplicationRecord
-  # 魚のマスターを格納するモデル
+  # 魚を格納するモデル
+  # 釣れる魚は殆ど変わらないことから削除することは想定していない
   has_many :catchable_fishes
   has_many :spots, through: :catchable_fishes
 
