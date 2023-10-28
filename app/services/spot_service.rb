@@ -25,9 +25,7 @@ class SpotService
     def destroy_spot!(params)
       ActiveRecord::Base.transaction do
         spot = params.spot
-        spot.update!(is_deleted: true)
-        spot.fish.update_all(is_deleted: true)
-        spot.fishing_types.update_all(is_deleted: true)
+        spot.destroy!
       end
     end
 
@@ -37,9 +35,6 @@ class SpotService
     def update_spot!(params)
       ActiveRecord::Base.transaction do
         spot = params.spot
-        spot.update!(is_deleted: true)
-        spot.fish.update_all(is_deleted: true)
-        spot.fishing_types.update_all(is_deleted: true)
       end
     end
   end

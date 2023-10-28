@@ -8,10 +8,10 @@ class Spot < ApplicationRecord
   belongs_to :user
   belongs_to :location
   has_many_attached :images
-  has_many :spot_fishing_types
-  has_many :fishing_types, :through => :spot_fishing_types, dependent: :destroy
-  has_many :catchable_fishes
-  has_many :fish, :through => :catchable_fishes, dependent: :destroy
+  has_many :spot_fishing_types, dependent: :destroy
+  has_many :fishing_types, :through => :spot_fishing_types
+  has_many :catchable_fishes, dependent: :destroy
+  has_many :fish, :through => :catchable_fishes
 
   validates :name, presence: true, length: { maximum: NAME_MAXIMUM_LIMIT }
   validates :description, presence: true, length: { maximum: DESCRIPTION_MAXIMUM_LIMIT }
