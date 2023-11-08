@@ -84,6 +84,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  host = 'fishare-backend.fly.dev'
+  host = 'fishare.xyz'
   Rails.application.routes.default_url_options[:host] = host
+  config.logger = Logger.new(STDOUT)
 end
