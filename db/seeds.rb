@@ -2,8 +2,9 @@ ActiveRecord::Base.transaction do
   (1..10).each_with_index do |user, i|
     name = "tester#{i}"
     password = "Password#{1}"
+    password_confirmation = password
     email = "example#{i}@example.com"
-    User.create!(name: name, password: password, email: email)
+    User.create!(name: name, email: email, password: password, password_confirmation: password_confirmation)
   end
 end
 
