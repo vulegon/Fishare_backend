@@ -13,14 +13,7 @@ module Api
           user.confirm
           sign_in(user)
 
-          # TODO 本番サーバーが決まり次第、修正
-          redirect_path = if Rails.env.production?
-                            # 本番環境のみの処理
-                            'https://main.dbu85sb3qanvb.amplifyapp.com/'
-                          else
-                            # 開発環境のみの処理
-                            'http://localhost:3000'
-                          end
+          redirect_path = Rails.application.config.frontend_url
 
           redirect_to(redirect_path, allow_other_host: true)
         end
