@@ -10,4 +10,5 @@ class FishingType < ApplicationRecord
     "ルアー釣り",
     "バス釣り",
   ]
+  validates :name, uniqueness: true, presence: true, inclusion: { in: NAMES, message: "釣りの種類の名前は#{NAMES.join(', ')}である必要があります" }
 end
