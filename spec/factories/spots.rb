@@ -21,6 +21,15 @@ FactoryBot.define do
       )
     end
 
-    
+    trait :with_images do
+      after(:build) do |spot|
+        # 画像データを添付する処理をここに追加
+        spot.images.attach(
+          io: File.open(Rails.root.join("spec", "samples", "images", "ボルメテウス・サファイア・ドラゴン.jpg")),
+          filename: "ボルメテウス・サファイア・ドラゴン.jpg",
+          content_type: "image/png",
+        )
+      end
+    end
   end
 end
