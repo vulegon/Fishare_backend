@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :location do
-    name { "海釣り" }
+    name { "#{Location::NAMES.sample}" }
   end
 end

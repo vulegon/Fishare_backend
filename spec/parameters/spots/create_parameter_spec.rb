@@ -22,12 +22,12 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
   let(:longitude) { "136.2725972414738" }
   let(:name) { "釣り場の名前" }
   let(:user) { FactoryBot.create(:user) }
-  let(:location) { FactoryBot.create(:location, name: "海釣り") }
-  let(:fish_1) { FactoryBot.create(:fish, name: "魚1") }
-  let(:fish_2) { FactoryBot.create(:fish, name: "魚2") }
+  let(:location) { FactoryBot.create(:location) }
+  let(:fish_1) { FactoryBot.create(:fish, name: "#{Fish::NAMES.first}") }
+  let(:fish_2) { FactoryBot.create(:fish, name: "#{Fish::NAMES.second}") }
   let(:fish) { [fish_1.name, fish_2.name] }
-  let(:fishing_type_1) { FactoryBot.create(:fishing_type) }
-  let(:fishing_type_2) { FactoryBot.create(:fishing_type) }
+  let(:fishing_type_1) { FactoryBot.create(:fishing_type, name: "#{FishingType::NAMES.first}") }
+  let(:fishing_type_2) { FactoryBot.create(:fishing_type, name: "#{FishingType::NAMES.second}") }
   let(:fishing_types) { [fishing_type_1.name, fishing_type_2.name] }
 
   describe "#valid" do
