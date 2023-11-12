@@ -72,4 +72,23 @@ RSpec.describe Api::V1::SpotsController, type: :request do
       it { is_expected.to have_http_status(:bad_request) }
     end
   end
+
+  describe "DELETE #destroy" do
+    subject {
+      delete api_v1_spot_path(id), headers: auth_headers
+      response
+    }
+    let(:id) { spot.id }
+    let!(:spot) { FactoryBot.create(:spot) }
+    let(:auth_headers) { spot.user.create_new_auth_token }
+
+    context "パラメーターが有効なとき" do
+      it { is_expected.to have_http_status(:ok) }
+    end
+
+    context "パラメーターが無効なとき" do
+      let(:id) { SecureRandom.uuid }
+      it { is_expected.to have_http_status(:bad_request) }
+    end
+  end
 end

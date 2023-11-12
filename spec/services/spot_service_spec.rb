@@ -27,4 +27,16 @@ RSpec.describe SpotService, type: :service do
       expect { subject }.to change { Spot.exists?(description: description, latitude: latitude.to_f, longitude: longitude.to_f, user_id: user.id, location_id: location.id) }.from(false).to(true)
     end
   end
+
+  describe ".destroy_spot!" do
+    subject { described_class.destroy_spot!(destroy_parameter) }
+    let(:destroy_parameter) { Spots::DestroyParameter.new(params, user) }
+    let(:params) { ActionController::Parameters.new(id: spot.id) }
+    let!(:spot) { FactoryBot.create(:spot) }
+    let(:user) { spot.user }
+
+    it "釣り場が削除されること" do
+      expect { subject }.to change { Spot.exists?(id: spot.id, user_id: user.id) }.from(true).to(false)
+    end
+  end
 end
