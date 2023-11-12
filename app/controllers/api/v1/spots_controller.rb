@@ -4,8 +4,21 @@ module Api
       before_action :authenticate_api_v1_user!, only: [:create, :destroy, :update]
 
       # 釣り場を取得します
-      # 釣り場の緯度経度をJSONで返します。
       def index
+        spots = Spot.all
+
+        serialized_spots = spots.pluck(:id, :latitude, :longitude).map { |spot_attr| { id: spot_attr[0], latitude: spot_attr[1], longitude: spot_attr[2] } }
+
+        json = {
+          message: "釣り場を取得しました",
+          spots: serialized_spots,
+        }
+
+        render status: :ok, json: json
+      end
+
+      # 釣り場を検索します
+      def search
         search_params = Spots::SearchParameter.new(params)
 
         spots = SpotFinder.new.search(search_params)

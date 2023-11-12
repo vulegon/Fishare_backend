@@ -13,6 +13,16 @@ RSpec.describe Api::V1::SpotsController, type: :request do
     it { is_expected.to have_http_status(:ok) }
   end
 
+  describe "GET #search" do
+    subject {
+      get api_v1_spots_search_path, params: params
+      response
+    }
+    let!(:params) { {} }
+    let!(:spot2) { FactoryBot.create(:spot) }
+    it { is_expected.to have_http_status(:ok) }
+  end
+
   describe "POST #create" do
     subject {
       post api_v1_spots_path, params: params, headers: auth_headers
