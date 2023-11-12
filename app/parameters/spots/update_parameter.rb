@@ -11,16 +11,18 @@ module Spots
     attribute :fish, array: true
     attribute :fishing_types, array: true
 
+    validate :spot_must_be_found
+
     def initialize(params, current_user)
-      super(params.permit(:id))
-      @spot = Spot.find_by(id: params[:id], user_id: current_user.id)
+      super(params.permit(:id, :description, :location, :name, fishing_types: [], images: [], fish: []))
+      @spot = Spot.find_by(id: params[:id], user_id: current_user&.id)
     end
 
     attr_reader :spot
 
     private
 
-    def name_must_be_exist
+    def spot_must_be_found
       return if spot.present?
       errors.add(:id, "ログイン中のユーザーアカウントに関連付けられた釣り場が見つかりませんでした")
     end
