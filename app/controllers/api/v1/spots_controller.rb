@@ -21,7 +21,7 @@ module Api
       def search
         search_params = Spots::SearchParameter.new(params)
 
-        spots = SpotFinder.new.search(search_params)
+        spots = Spots::SpotFinder.new.search(search_params)
 
         serialized_spots = Spots::SpotSerializer.new(spots).serialize_spots
 
