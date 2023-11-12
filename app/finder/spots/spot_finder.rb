@@ -22,7 +22,7 @@ module Spots
 
     def by_spot_name(query, name)
       return query if name.blank?
-      query.where("spots.name LIKE ?", "%#{sanitize_sql_like(name)}%")
+      query.where("spots.name LIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(name)}%")
     end
 
     def by_spot_location(query, location_name)

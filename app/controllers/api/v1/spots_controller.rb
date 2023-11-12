@@ -21,12 +21,16 @@ module Api
       def search
         search_params = Spots::SearchParameter.new(params)
 
-        spots = Spots::SpotFinder.new.search(search_params)
+        if search_params.invalid?
+          render_parameter_error(search_params) and return
+        end
+
+        spots = ::Spots::SpotFinder.new.search(search_params)
 
         serialized_spots = Spots::SpotSerializer.new(spots).serialize_spots
 
         json = {
-          message: "釣り場を取得しました",
+          message: "釣り場を検索しました",
           spots: serialized_spots,
         }
 

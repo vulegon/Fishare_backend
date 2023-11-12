@@ -3,6 +3,8 @@ module Spots
     include ActiveModel::Model
     include ActiveModel::Attributes
 
+    # TRAVEL_DISTANCES_TYPE = ["10km圏内"]
+
     attribute :name, :string
     attribute :latitude, :float
     attribute :longitude, :float
@@ -16,6 +18,7 @@ module Spots
     validate :longitude_must_be_within_0_to_180_degrees, if: -> { location.present? }
     validate :fish_must_be_found, if: -> { fish.present? }
     validate :fishing_types_must_be_found, if: -> { fish.present? }
+    # validate :travel_distances_must_be_found, if: -> { travel_distances.present? }　現在地からある距離までの釣り場を検索できるように改修予定
 
     def initialize(params)
       super(params.permit(:name, :latitude, :longitude, :location, fishing_types: [], fish: []))
