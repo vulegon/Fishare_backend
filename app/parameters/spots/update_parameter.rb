@@ -4,7 +4,7 @@ module Spots
     include ActiveModel::Attributes
 
     attribute :id, :string #釣り場のid
-    attribute :name, :string #釣り場のid
+    attribute :name, :string
     attribute :description, :string
     attribute :location, :string
     attribute :images, :binary

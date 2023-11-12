@@ -95,7 +95,7 @@ module Api
         SpotService.update_spot!(update_params)
 
         json = {
-          message: "釣り場を削除しました",
+          message: "釣り場を更新しました",
         }
 
         render status: :ok, json: json
