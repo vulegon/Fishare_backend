@@ -39,29 +39,52 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
     end
 
     context "パラメーターが正しくないとき" do
-      context "緯度が空の時" do
-        let(:latitude) { "" }
-        it { should be_invalid }
+      context "緯度が誤りのとき" do
+        context "緯度が空の時" do
+          let(:latitude) { "" }
+          it { should be_invalid }
+        end
+
+        context "緯度が-90°から90°の範囲ではない時" do
+          let(:latitude) { "-91.00000000000000" }
+          it { should be_invalid }
+        end
       end
 
-      context "経度が空の時" do
-        let(:longitude) { "" }
-        it { should be_invalid }
+      context "経度が誤りのとき" do
+        context "経度が空の時" do
+          let(:longitude) { "" }
+          it { should be_invalid }
+        end
+
+        context "経度が-180°から180°の範囲ではない時" do
+          let(:longitude) { "181.00000000000000" }
+          it { should be_invalid }
+        end
       end
 
-      context "緯度が-90°から90°の範囲ではない時" do
-        let(:latitude) { "-91.00000000000000" }
-        it { should be_invalid }
+      context "釣り場の名前が誤りのとき" do
+        context "釣り場の名前が空の時" do
+          let(:name) { "" }
+          it { should be_invalid }
+        end
+
+        context "釣りの場の名前の文字数が300文字超えるとき" do
+          let(:name) { "0123456789" * 30 + "1" }
+          it { should be_invalid }
+        end
       end
 
-      context "経度が-180°から180°の範囲ではない時" do
-        let(:longitude) { "181.00000000000000" }
-        it { should be_invalid }
-      end
+      context "釣り場の説明が誤りのとき" do
+        context "釣り場の説明が空の時" do
+          let(:description) { "" }
+          it { should be_invalid }
+        end
 
-      context "釣り場の名前が空の時" do
-        let(:name) { "" }
-        it { should be_invalid }
+        context "釣りの場の説明の文字数が1000文字超えるとき" do
+          let(:description) { "0123456789" * 100 + "1" }
+          it { should be_invalid }
+        end
       end
 
       context "釣り場の種類が誤りのとき" do
