@@ -2,6 +2,7 @@ module Spots
   class CreateParameter
     include ActiveModel::Model
     include ActiveModel::Attributes
+    include ActiveModel::Validations
 
     attribute :name, :string
     #formDataでは文字列でしか送れないので仕方なく文字列型とする
@@ -13,8 +14,8 @@ module Spots
     attribute :fish, array: true
     attribute :fishing_types, array: true
 
-    validate :name_must_be_exist
-    validate :description_must_be_exist
+    validates :name, presence: true, length: { maximum: Spot::NAME_MAXIMUM_LIMIT }
+    validates :description, presence: true, length: { maximum: Spot::DESCRIPTION_MAXIMUM_LIMIT }
     validate :latitude_must_be_exist
     validate :longitude_must_be_exist
 
@@ -48,16 +49,6 @@ module Spots
     end
 
     private
-
-    def name_must_be_exist
-      return if name.present?
-      errors.add(:latitude, "釣り場の名前が未入力です")
-    end
-
-    def description_must_be_exist
-      return if description.present?
-      errors.add(:description, "釣り場の説明が未入力です")
-    end
 
     def latitude_must_be_exist
       return unless latitude.to_i.zero?
