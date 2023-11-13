@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Spots::CreateParameter, type: :parameter do
-  let(:params) { ActionController::Parameters.new(description: description, images: images, str_latitude: latitude, str_longitude: longitude, name: name, location: location.name, fish: fish, fishing_types: fishing_types) }
+  let(:params) { ActionController::Parameters.new(description: description, images: images, str_latitude: latitude, str_longitude: longitude, name: name, location: location_name, fish: fish, fishing_types: fishing_types) }
   let(:description) { "適当な説明文" }
   let(:image_1) {
     ActionDispatch::Http::UploadedFile.new(
@@ -23,6 +23,7 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
   let(:name) { "釣り場の名前" }
   let(:user) { FactoryBot.create(:user) }
   let(:location) { FactoryBot.create(:location) }
+  let(:location_name) { location.name }
   let(:fish_1) { FactoryBot.create(:fish, name: "#{Fish::NAMES.first}") }
   let(:fish_2) { FactoryBot.create(:fish, name: "#{Fish::NAMES.second}") }
   let(:fish) { [fish_1.name, fish_2.name] }
@@ -63,7 +64,20 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
         it { should be_invalid }
       end
 
-      # TODO バリデーションを追加すること
+      context "釣り場の種類が誤りのとき" do
+        let(:location_name) { "123" }
+        it { should be_invalid }
+      end
+
+      context "魚の種類が誤りのとき" do
+        let(:fish) { ["123"] }
+        it { should be_invalid }
+      end
+
+      context "釣りの種類が誤りのとき" do
+        let(:fishing_types) { ["123"] }
+        it { should be_invalid }
+      end
     end
   end
 
