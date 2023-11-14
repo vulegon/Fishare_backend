@@ -12,6 +12,7 @@ module Spots
     attribute :fish, array: true
     attribute :fishing_types, array: true
 
+    validates :id, presence: true
     validates :name, presence: true, length: { maximum: Spot::NAME_MAXIMUM_LIMIT }
     validates :description, presence: true, length: { maximum: Spot::DESCRIPTION_MAXIMUM_LIMIT }
 
@@ -27,6 +28,15 @@ module Spots
       @location_record = Location.find_by(name: location)
       @fish_record = Fish.where(name: fish)
       @fishing_types_record = FishingType.where(name: fishing_types)
+    end
+
+    def model_attributes
+      {
+        name: name,
+        description: description,
+        images: images,
+        location_id: location_record.id,
+      }
     end
 
     attr_reader :spot, :location_record, :fish_record, :fishing_types_record

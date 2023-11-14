@@ -74,4 +74,17 @@ RSpec.describe Spots::UpdateParameter, type: :parameter do
       end
     end
   end
+
+  describe "#model_attributes" do
+    subject { described_class.new(params, user).model_attributes }
+
+    it "与えられたパラメーターがハッシュ形式で返ること" do
+      is_expected.to eq({
+                       name: name,
+                       description: description,
+                       images: images,
+                       location_id: location.id,
+                     })
+    end
+  end
 end
