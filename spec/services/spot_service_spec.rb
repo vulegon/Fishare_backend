@@ -39,4 +39,8 @@ RSpec.describe SpotService, type: :service do
       expect { subject }.to change { Spot.exists?(id: spot.id, user_id: user.id) }.from(true).to(false)
     end
   end
+
+  describe ".update_spot!" do
+
+  end
 end

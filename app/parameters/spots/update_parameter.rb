@@ -34,7 +34,6 @@ module Spots
       {
         name: name,
         description: description,
-        images: images,
         location_id: location_record.id,
       }
     end

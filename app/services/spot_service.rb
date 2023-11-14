@@ -6,8 +6,11 @@ class SpotService
     def create_spot!(params)
       ActiveRecord::Base.transaction do
         user = params.user
+
+        # spotモデルの更新
         spot = user.spots.create!(params.model_attributes)
 
+        # 関連データの作成
         params.fish_record.each do |fish|
           spot.catchable_fishes.create!(fish_id: fish.id)
         end
@@ -29,13 +32,23 @@ class SpotService
       end
     end
 
+    # TODO 途中なので完成させること
     # 釣り場を更新します
     # @param params[<Spots::UpdateParameter>] 釣り場削除のパラメータ
     # @return void
     def update_spot!(params)
+      original_spot = params.spot
+
+      diff_update_attributes = calculate_update_diff(original_spot, params)
+
       ActiveRecord::Base.transaction do
-        spot = params.spot
       end
+    end
+
+    private
+
+    def calculate_update_diff(original_spot, params)
+      params.reject { |key, value| original_spot[key] == value }
     end
   end
 end
