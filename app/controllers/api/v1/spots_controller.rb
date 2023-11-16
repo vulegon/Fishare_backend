@@ -72,6 +72,7 @@ module Api
 
         json = {
           message: "釣り場の詳細を取得しました",
+          id: spot.id,
           name: spot.name,
           description: spot.description,
           location: spot.location.name,
