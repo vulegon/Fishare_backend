@@ -63,22 +63,12 @@ module Api
         end
 
         spot = detail_param.spot
-        editable = if current_api_v1_user
-            spot.user_id == current_api_v1_user.id
-          else
-            false
-          end
+
+        serialized_spots = Spots::ShowSerializer.new(spot, current_api_v1_user).serialize_spots
 
         json = {
           message: "釣り場の詳細を取得しました",
-          id: spot.id,
-          name: spot.name,
-          description: spot.description,
-          location: spot.location.name,
-          fish: spot.fish.pluck(:name),
-          fishing_types: spot.fishing_types.pluck(:name),
-          images: spot.image_urls,
-          editable: editable,
+          spot: serialized_spots
         }
 
         render status: :ok, json: json

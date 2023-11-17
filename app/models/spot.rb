@@ -26,6 +26,12 @@ class Spot < ApplicationRecord
     images.map { |image| Rails.application.routes.url_helpers.url_for(image) }
   end
 
+  # 釣り場を編集できるかどうか返します
+  # @return [boolean]
+  def editable?(user)
+    self.user == user
+  end
+
   private
 
   def latitude_within_range
