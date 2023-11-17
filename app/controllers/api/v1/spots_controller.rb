@@ -6,8 +6,7 @@ module Api
       # 釣り場を取得します
       def index
         spots = Spot.all
-
-        serialized_spots = spots.pluck(:id, :latitude, :longitude).map { |spot_attr| { id: spot_attr[0], lat: spot_attr[1], lng: spot_attr[2] } }
+        serialized_spots = Spots::IndexSerializer.new(spots).serialize_spots
 
         json = {
           message: "釣り場を取得しました",

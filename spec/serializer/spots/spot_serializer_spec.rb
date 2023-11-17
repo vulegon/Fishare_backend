@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Spots::SpotSerializer do
+RSpec.describe Spots::SpotSerializer, type: :serializer do
   describe "#serialize_spots" do
     subject { described_class.new(spots).serialize_spots }
     let!(:spot) { FactoryBot.create(:spot) }
