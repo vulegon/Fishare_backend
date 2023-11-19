@@ -20,31 +20,33 @@ Location.import locations
 # location, fish, fishing_typesが違うspotのレコードを作成する
 location = Location.find_by(name: "海釣り")
 user = User.find_by(email: "example0@example.com")
-fish_records = Fish.where(name: ["カサゴ","タイ","キス"])
-fishing_types_records = FishingType.where(name: ["穴釣り","サビキ釣り"])
+fish_records = Fish.where(name: ["カサゴ", "タイ", "キス"])
+fishing_types_records = FishingType.where(name: ["穴釣り", "サビキ釣り"])
 positions = [
   { latitude: 35.67207035801073, longitude: 139.95301662060612 }, #市川漁港
   { latitude: 35.67152230520766, longitude: 139.95860167986368 }, #船橋海浜公園
+  { latitude: 35.720044592323006, longitude: 139.91822953829984 },
+  { latitude: 35.728859151139666, longitude: 139.9216627658389 },
+  { latitude: 35.73018299272258, longitude:  139.9293875278018 },
+  { latitude: 35.72415585178975, longitude: 139.93530984530668 },
   { latitude: 35.14184474166084, longitude: 139.6376359462738 }, #宮川漁港
 ]
 ActiveRecord::Base.transaction do
-  (1..3).each_with_index do |user, i|
+  positions.each_with_index do |position, i|
     name = "釣り場テスト#{i}"
     description = "釣り場説明#{i}"
     location_id = location.id
-    latitude = positions[i][:latitude]
-    longitude = positions[i][:longitude]
-    user_id = User.find_by(email: "example#{i}@example.com").id
-    spot = Spot.create!(name: name,latitude: latitude, longitude: longitude, description: description, location_id: location_id, user_id: user_id)
+    latitude = position[:latitude]
+    longitude = position[:longitude]
+    user_id = User.find_by(email: "example1@example.com").id
+    spot = Spot.create!(name: name, latitude: latitude, longitude: longitude, description: description, location_id: location_id, user_id: user_id)
 
     fish_records.each do |fish|
       spot.catchable_fishes.create!(fish_id: fish.id)
     end
-  
+
     fishing_types_records.each do |fifishing_type|
       spot.spot_fishing_types.create!(fishing_type_id: fifishing_type.id)
     end
   end
 end
-
-
