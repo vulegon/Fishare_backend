@@ -6,8 +6,8 @@ RSpec.describe Api::V1::FishController, type: :request do
       get api_v1_fish_index_path
       response
     }
-    let!(:fish1) { FactoryBot.create(:fish, name: "カサゴ") }
-    let!(:fish2) { FactoryBot.create(:fish, name: "タコ") }
+    let!(:fish1) { FactoryBot.create(:fish, name: "#{Fish::NAMES.first}") }
+    let!(:fish2) { FactoryBot.create(:fish, name: "#{Fish::NAMES.second}") }
 
     context "魚の配列が返ること" do
       it {

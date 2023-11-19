@@ -2,6 +2,7 @@ module Spots
   class CreateParameter
     include ActiveModel::Model
     include ActiveModel::Attributes
+    include ActiveModel::Validations
 
     attribute :name, :string
     #formDataでは文字列でしか送れないので仕方なく文字列型とする
@@ -13,16 +14,16 @@ module Spots
     attribute :fish, array: true
     attribute :fishing_types, array: true
 
-    validate :name_must_be_exist
-    validate :description_must_be_exist
+    validates :name, presence: true, length: { maximum: Spot::NAME_MAXIMUM_LIMIT }
+    validates :description, presence: true, length: { maximum: Spot::DESCRIPTION_MAXIMUM_LIMIT }
     validate :latitude_must_be_exist
     validate :longitude_must_be_exist
-    validate :latitude_must_be_within_0_to_90_degrees
-    validate :longitude_must_be_within_0_to_180_degrees
-    validate :fish_must_be_exist
-    validate :fish_must_be_exist_in_db
-    validate :fishing_types_must_be_exist
-    validate :location_must_be_exist
+
+    # TODO 各Validatorのテストを追加すること
+    validates_with Spots::LocationValidator
+    validates_with Spots::PositionValidator
+    validates_with Spots::FishValidator
+    validates_with Spots::FishingTypeValidator
 
     def initialize(params, current_user)
       super(params.permit(:str_latitude, :str_longitude, :description, :location, :name, fishing_types: [], images: [], fish: []))
@@ -49,16 +50,6 @@ module Spots
 
     private
 
-    def name_must_be_exist
-      return if name.present?
-      errors.add(:latitude, "釣り場の名前が未入力です")
-    end
-
-    def description_must_be_exist
-      return if description.present?
-      errors.add(:description, "釣り場の説明が未入力です")
-    end
-
     def latitude_must_be_exist
       return unless latitude.to_i.zero?
       errors.add(:str_latitude, "緯度情報が存在しません")
@@ -67,40 +58,6 @@ module Spots
     def longitude_must_be_exist
       return unless longitude.to_i.zero?
       errors.add(:str_longitude, "経度情報が存在しません")
-    end
-
-    def latitude_must_be_within_0_to_90_degrees
-      return if errors.key?(:latitude)
-      return if ::Spot::LATITUDE_RANGE.include?(latitude)
-      errors.add(:str_latitude, "緯度は-90°〜+90°の間である必要があります")
-    end
-
-    def longitude_must_be_within_0_to_180_degrees
-      return if errors.key?(:longitude)
-      return if ::Spot::LONGITUDE_RANGE.include?(longitude)
-      errors.add(:str_longitude, "経度は-180°〜+180°の間である必要があります")
-    end
-
-    def fish_must_be_exist
-      return if fish.present?
-      errors.add(:fish, "データベースに存在しない魚です")
-    end
-
-    def fish_must_be_exist_in_db
-      return if errors.key?(:fish)
-      return if fish.all? { |f| fish_record.pluck(:name).include?(f) }
-      errors.add(:fish, "釣れる魚がデータベースに存在しない魚です")
-    end
-
-    def fishing_types_must_be_exist
-      return if fishing_types.blank?
-      return if fishing_types.all? { |fishing_type| fishing_types_record.pluck(:name).include?(fishing_type) }
-      errors.add(:fishing_types, "釣りの種類は#{FishingType::NAMES}から選択する必要があります")
-    end
-
-    def location_must_be_exist
-      return if location_record.present?
-      errors.add(:location, "釣り場は#{Location::NAMES}から選択する必要があります")
     end
   end
 end

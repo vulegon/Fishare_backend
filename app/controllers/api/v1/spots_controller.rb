@@ -4,16 +4,32 @@ module Api
       before_action :authenticate_api_v1_user!, only: [:create, :destroy, :update]
 
       # 釣り場を取得します
-      # 釣り場の緯度経度をJSONで返します。
       def index
+        spots = Spot.all
+        serialized_spots = Spots::IndexSerializer.new(spots).serialize_spots
+
+        json = {
+          message: "釣り場を取得しました",
+          spots: serialized_spots,
+        }
+
+        render status: :ok, json: json
+      end
+
+      # 釣り場を検索します
+      def search
         search_params = Spots::SearchParameter.new(params)
 
-        spots = SpotFinder.new.search(search_params)
+        if search_params.invalid?
+          render_parameter_error(search_params) and return
+        end
+
+        spots = ::Spots::SpotFinder.new.search(search_params)
 
         serialized_spots = Spots::SpotSerializer.new(spots).serialize_spots
 
         json = {
-          message: "釣り場を取得しました",
+          message: "釣り場を検索しました",
           spots: serialized_spots,
         }
 
@@ -47,21 +63,12 @@ module Api
         end
 
         spot = detail_param.spot
-        editable = if current_api_v1_user
-            spot.user_id == current_api_v1_user.id
-          else
-            false
-          end
+
+        serialized_spots = Spots::ShowSerializer.new(spot, current_api_v1_user).serialize_spots
 
         json = {
           message: "釣り場の詳細を取得しました",
-          name: spot.name,
-          description: spot.description,
-          location: spot.location.name,
-          fish: spot.fish.pluck(:name),
-          fishing_types: spot.fishing_types.pluck(:name),
-          images: spot.image_urls,
-          editable: editable,
+          spot: serialized_spots
         }
 
         render status: :ok, json: json
@@ -78,7 +85,7 @@ module Api
         SpotService.update_spot!(update_params)
 
         json = {
-          message: "釣り場を削除しました",
+          message: "釣り場を更新しました",
         }
 
         render status: :ok, json: json

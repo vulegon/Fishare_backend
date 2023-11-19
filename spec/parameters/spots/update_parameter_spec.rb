@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Spots::CreateParameter, type: :parameter do
-  let(:params) { ActionController::Parameters.new(description: description, images: images, str_latitude: latitude, str_longitude: longitude, name: name, location: location_name, fish: fish, fishing_types: fishing_types) }
+RSpec.describe Spots::UpdateParameter, type: :parameter do
+  let(:params) { ActionController::Parameters.new(id: spot_id, description: description, images: images, name: name, location: location_name, fish: fish, fishing_types: fishing_types) }
   let(:description) { "適当な説明文" }
   let(:image_1) {
     ActionDispatch::Http::UploadedFile.new(
@@ -18,11 +18,8 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
     )
   }
   let(:images) { [image_1, image_2] }
-  let(:latitude) { "36.15305354356379" }
-  let(:longitude) { "136.2725972414738" }
   let(:name) { "釣り場の名前" }
-  let(:user) { FactoryBot.create(:user) }
-  let(:location) { FactoryBot.create(:location) }
+  let(:location) { spot.location }
   let(:location_name) { location.name }
   let(:fish_1) { FactoryBot.create(:fish, name: "#{Fish::NAMES.first}") }
   let(:fish_2) { FactoryBot.create(:fish, name: "#{Fish::NAMES.second}") }
@@ -30,6 +27,9 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
   let(:fishing_type_1) { FactoryBot.create(:fishing_type, name: "#{FishingType::NAMES.first}") }
   let(:fishing_type_2) { FactoryBot.create(:fishing_type, name: "#{FishingType::NAMES.second}") }
   let(:fishing_types) { [fishing_type_1.name, fishing_type_2.name] }
+  let(:spot) { FactoryBot.create(:spot) }
+  let(:user) { spot.user }
+  let(:spot_id) { spot.id }
 
   describe "#valid" do
     subject { described_class.new(params, user) }
@@ -39,28 +39,14 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
     end
 
     context "パラメーターが正しくないとき" do
-      context "緯度が誤りのとき" do
-        context "緯度が空の時" do
-          let(:latitude) { "" }
-          it { should be_invalid }
-        end
-
-        context "緯度が-90°から90°の範囲ではない時" do
-          let(:latitude) { "-91.00000000000000" }
-          it { should be_invalid }
-        end
+      context "釣り場が見つからない時" do
+        let(:spot_id) { SecureRandom.uuid }
+        it { should be_invalid }
       end
 
-      context "経度が誤りのとき" do
-        context "経度が空の時" do
-          let(:longitude) { "" }
-          it { should be_invalid }
-        end
-
-        context "経度が-180°から180°の範囲ではない時" do
-          let(:longitude) { "181.00000000000000" }
-          it { should be_invalid }
-        end
+      context "ユーザーが作成者ではないとき" do
+        let(:user) { FactoryBot.build(:user, email: "tester1-1@fishare.com") }
+        it { should be_invalid }
       end
 
       context "釣り場の名前が誤りのとき" do
@@ -86,21 +72,6 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
           it { should be_invalid }
         end
       end
-
-      context "釣り場の種類が誤りのとき" do
-        let(:location_name) { "123" }
-        it { should be_invalid }
-      end
-
-      context "魚の種類が誤りのとき" do
-        let(:fish) { ["123"] }
-        it { should be_invalid }
-      end
-
-      context "釣りの種類が誤りのとき" do
-        let(:fishing_types) { ["123"] }
-        it { should be_invalid }
-      end
     end
   end
 
@@ -112,8 +83,6 @@ RSpec.describe Spots::CreateParameter, type: :parameter do
                        name: name,
                        description: description,
                        images: images,
-                       latitude: latitude.to_f,
-                       longitude: longitude.to_f,
                        location_id: location.id,
                      })
     end

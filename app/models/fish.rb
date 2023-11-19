@@ -85,4 +85,6 @@ class Fish < ApplicationRecord
     "ヨシノボリ",
     "ワカシ",
   ]
+
+  validates :name, uniqueness: true, presence: true, inclusion: { in: NAMES, message: "魚の種類の名前はモデルに存在しない値です" }
 end

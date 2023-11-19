@@ -73,4 +73,25 @@ RSpec.describe Spot, type: :model do
       expect(subject).to all(match(Rails.application.routes.default_url_options[:host]))
     end
   end
+
+  describe "#editable?" do
+    subject { spot.editable?(user) }
+    let(:spot) { FactoryBot.build(:spot) }
+
+    context "引数のユーザーと釣り場のユーザーに関して" do
+      context "一致するとき" do
+        let(:user) { spot.user }
+        it {
+          is_expected.to eq(true)
+        }
+      end
+
+      context "一致しないとき" do
+        let(:user) { FactoryBot.build(:user, email: "walkurepqrt@icloud.com") }
+        it {
+          is_expected.to eq(false)
+        }
+      end
+    end
+  end
 end
