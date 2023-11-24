@@ -18,6 +18,8 @@ RSpec.describe Spots::ShowSerializer, type: :serializer do
           expect(subject).to eq({
                                id: spot.id,
                                name: spot.name,
+                               latitude: spot.latitude,
+                               longitude: spot.longitude,
                                description: spot.description,
                                location: spot.location.name,
                                fish: [fish.name],

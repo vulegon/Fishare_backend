@@ -9,6 +9,8 @@ module Spots
       {
         id: spot.id,
         name: spot.name,
+        latitude: spot.latitude,
+        longitude: spot.longitude,
         description: spot.description,
         location: spot.location.name,
         fish: spot.fish.pluck(:name),

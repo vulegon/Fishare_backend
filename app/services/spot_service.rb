@@ -32,23 +32,33 @@ class SpotService
       end
     end
 
-    # TODO 途中なので完成させること
     # 釣り場を更新します
     # @param params[<Spots::UpdateParameter>] 釣り場削除のパラメータ
     # @return void
     def update_spot!(params)
-      original_spot = params.spot
+      spot = params.spot
 
-      diff_update_attributes = calculate_update_diff(original_spot, params)
+      diff_update_attributes = calculate_update_diff(spot, params)
 
       ActiveRecord::Base.transaction do
+        spot.catchable_fishes.destroy_all
+        spot.spot_fishing_types.destroy_all
+        spot.update!(params.model_attributes)
+
+        params.fish_record.each do |fish|
+          spot.catchable_fishes.create!(fish_id: fish.id)
+        end
+
+        params.fishing_types.each do |fifishing_type|
+          spot.spot_fishing_types.create!(fishing_type_id: fifishing_type.id)
+        end
       end
     end
 
     private
 
-    def calculate_update_diff(original_spot, params)
-      params.reject { |key, value| original_spot[key] == value }
+    def calculate_update_diff(spot, params)
+      params.reject { |key, value| spot[key] == value }
     end
   end
 end

@@ -17,6 +17,9 @@ module Spots
     validates :description, presence: true, length: { maximum: Spot::DESCRIPTION_MAXIMUM_LIMIT }
 
     validate :spot_must_be_found
+    validate :latitude_must_be_exist
+    validate :longitude_must_be_exist
+
 
     validates_with Spots::LocationValidator
     validates_with Spots::FishValidator
@@ -45,6 +48,16 @@ module Spots
     def spot_must_be_found
       return if spot.present?
       errors.add(:id, "ログイン中のユーザーアカウントに関連付けられた釣り場が見つかりませんでした")
+    end
+
+    def latitude_must_be_exist
+      return unless latitude.to_i.zero?
+      errors.add(:str_latitude, "緯度情報が存在しません")
+    end
+
+    def longitude_must_be_exist
+      return unless longitude.to_i.zero?
+      errors.add(:str_longitude, "経度情報が存在しません")
     end
   end
 end
