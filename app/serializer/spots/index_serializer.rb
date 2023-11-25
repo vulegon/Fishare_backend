@@ -1,7 +1,5 @@
 module Spots
   class IndexSerializer < ActiveModel::Serializer
-    attribute :id
-    attribute :latitude
-    attribute :longitude
+    attributes :id, :latitude, :longitude
   end
 end
