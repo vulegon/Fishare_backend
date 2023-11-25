@@ -2,15 +2,17 @@ module Spots
   class SearchSerializer < ActiveModel::Serializer
     attr_reader :relation
 
+    attributes :spots
+
     def initialize(relation)
-      @relation = relation
       super(relation)
+      @relation = relation
     end
 
     def spots
       ActiveModel::Serializer::CollectionSerializer.new(
         relation,
-        each_serializer: Spots::SpotSerializer,
+        serializer: ::Spots::SpotSerializer,
         cache_locations: location_by_spot_id,
         cache_fish: fish_by_spot_id,
         cache_fishing_types: fishing_types_by_spot_id,

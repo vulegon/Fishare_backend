@@ -11,7 +11,7 @@ RSpec.describe Spots::SearchSerializer, type: :serializer do
     let!(:fish) { FactoryBot.create(:fish) }
     let!(:spot_fishing_types) { spot.fish << [fish] }
     it {
-      expect(subject).to eq([{ id: spot.id,
+      expect(subject[:spots]).to eq([{ id: spot.id,
                                name: spot.name,
                                latitude: spot.latitude,
                                longitude: spot.longitude,
