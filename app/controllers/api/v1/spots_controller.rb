@@ -6,7 +6,7 @@ module Api
       # 釣り場を取得します
       def index
         spots = Spot.all
-        serialized_spots = Spots::IndexSerializer.new(spots).serialize_spots
+        serialized_spots = ActiveModelSerializers::SerializableResource.new(spots, each_serializer: Spots::IndexSerializer).as_json
 
         json = {
           message: "釣り場を取得しました",
