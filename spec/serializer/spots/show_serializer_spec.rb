@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Spots::ShowSerializer, type: :serializer do
   describe "#serialize_spots" do
-    subject { described_class.new(spot, user).as_json }
+    subject { described_class.new(spot, user: user).as_json }
     let!(:spot) { FactoryBot.create(:spot, :with_images) }
     let!(:fishing_type1) { FactoryBot.create(:fishing_type) }
     let!(:spot_fishing_type) { FactoryBot.create(:spot_fishing_type, spot_id: spot.id, fishing_type_id: fishing_type1.id) }

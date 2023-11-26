@@ -1,10 +1,11 @@
 module Spots
   class ShowSerializer < ActiveModel::Serializer
     attributes :id, :name, :latitude, :longitude, :description, :location, :fish, :fishing_types, :images, :editable
+    attr_reader :user
 
-    def initialize(object, user)
+    def initialize(object, options = {})
       super(object)
-      @user = user
+      @user = options[:user]
     end
 
     def location
@@ -24,7 +25,7 @@ module Spots
     end
 
     def editable
-      object.editable?(@user)
+      object.editable?(user)
     end
   end
 end
