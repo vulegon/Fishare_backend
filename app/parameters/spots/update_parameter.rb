@@ -28,7 +28,7 @@ module Spots
     validates_with Spots::FishingTypeValidator
 
     def initialize(params, current_user)
-      super(params.permit(:id, :description, :location, :name, fishing_types: [], images: [], fish: []))
+      super(params.permit(:id, :description, :location, :name, :str_latitude, :str_longitude, fishing_types: [], images: [], fish: []))
       @spot = Spot.find_by(id: params[:id], user_id: current_user&.id)
       @latitude = str_latitude.to_f
       @longitude = str_longitude.to_f
