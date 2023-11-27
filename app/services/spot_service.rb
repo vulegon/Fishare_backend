@@ -45,6 +45,7 @@ class SpotService
         spot.spot_fishing_types.destroy_all
         spot.update!(diff_update_attributes)
 
+        # 関連モデルの更新
         params.fish_record.each do |fish|
           spot.catchable_fishes.create!(fish_id: fish.id)
         end
