@@ -40,6 +40,8 @@ module Spots
     def model_attributes
       {
         name: name,
+        latitude: latitude,
+        longitude: longitude,
         description: description,
         location_id: location_record.id,
       }
