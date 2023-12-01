@@ -43,7 +43,11 @@ class SpotService
       ActiveRecord::Base.transaction do
         spot.catchable_fishes.destroy_all
         spot.spot_fishing_types.destroy_all
-        spot.update!(diff_update_attributes)
+
+        if diff_update_attributes.present?
+          spot.assign_attributes(diff_update_attributes)
+          spot.save!
+        end
 
         # 関連モデルの更新
         params.fish_record.each do |fish|
