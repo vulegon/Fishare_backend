@@ -49,6 +49,10 @@ class SpotService
           spot.save!
         end
 
+        if params.images.blank?
+          spot.images.purge
+        end
+
         # 関連モデルの更新
         params.fish_record.each do |fish|
           spot.catchable_fishes.create!(fish_id: fish.id)
