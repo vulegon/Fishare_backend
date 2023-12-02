@@ -40,6 +40,7 @@ module Spots
     def model_attributes
       {
         name: name,
+        images: images,
         latitude: latitude,
         longitude: longitude,
         description: description,

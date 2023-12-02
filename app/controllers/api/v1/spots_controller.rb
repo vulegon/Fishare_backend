@@ -59,7 +59,7 @@ module Api
 
         spot = detail_param.spot
 
-        serialized_spot = ActiveModelSerializers::SerializableResource.new(spot, serializer: Spots::ShowSerializer, user: current_api_v1_user).as_json
+        serialized_spot = ActiveModelSerializers::SerializableResource.new(spot, serializer: Spots::Show::ShowSerializer, user: current_api_v1_user).as_json
 
         json = {
           message: "釣り場の詳細を取得しました",
