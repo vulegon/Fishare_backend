@@ -6,7 +6,7 @@ module Api
       # 釣り場を取得します
       def index
         spots = Spot.all
-        serialized_spots = Spots::IndexSerializer.new(spots).serialize_spots
+        serialized_spots = ActiveModelSerializers::SerializableResource.new(spots, each_serializer: Spots::IndexSerializer).as_json
 
         json = {
           message: "釣り場を取得しました",
@@ -26,12 +26,7 @@ module Api
 
         spots = ::Spots::SpotFinder.new.search(search_params)
 
-        serialized_spots = Spots::SpotSerializer.new(spots).serialize_spots
-
-        json = {
-          message: "釣り場を検索しました",
-          spots: serialized_spots,
-        }
+        json = ::Spots::SearchSerializer.new(spots).as_json
 
         render status: :ok, json: json
       end
@@ -64,11 +59,11 @@ module Api
 
         spot = detail_param.spot
 
-        serialized_spots = Spots::ShowSerializer.new(spot, current_api_v1_user).serialize_spots
+        serialized_spot = ActiveModelSerializers::SerializableResource.new(spot, serializer: Spots::Show::ShowSerializer, user: current_api_v1_user).as_json
 
         json = {
           message: "釣り場の詳細を取得しました",
-          spot: serialized_spots
+          spot: serialized_spot,
         }
 
         render status: :ok, json: json

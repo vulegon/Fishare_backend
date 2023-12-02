@@ -19,6 +19,7 @@ gem 'rails-i18n'
 gem 'dotenv'
 gem 'pry-rails'
 gem 'activerecord-import'
+gem 'active_model_serializers'
 
 group :production do
   gem 'unicorn'
