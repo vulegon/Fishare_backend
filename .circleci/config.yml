@@ -31,10 +31,13 @@ jobs:
           path: ~/fishare_backend
       - ruby/install-deps
       - run:
+          name: Create Database
+          command: bundle exec rails db:create RAILS_ENV=test
+      - run:
           name: Database setup
           command: bundle exec rails db:migrate
       - run:
-          name: test
+          name: Run Test
           command: bundle exec rspec spec
 
 workflows:
