@@ -14,12 +14,12 @@ jobs:
 
   test:
     docker:
-      - image: circleci/ruby
+      - image: cimg/ruby:3.1.1
       - image: circleci/postgres
         environment:
-          POSTGRESQL_PASSWORD: password
-          POSTGRESQL_DATABASE: myapp_test
-          POSTGRESQL_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DATABASE: myapp_test
+          POSTGRES_USER: postgres
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
