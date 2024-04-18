@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Spots::UpdateParameter, type: :parameter do
-  let(:params) { ActionController::Parameters.new(id: spot_id, description: description, images: images, name: name, location: location_name, fish: fish, fishing_types: fishing_types) }
+  let(:params) { ActionController::Parameters.new(id: spot_id, description: description, images: images, name: name, location: location_name, fish: fish, fishing_types: fishing_types, str_latitude: latitude, str_longitude: longitude) }
   let(:description) { "適当な説明文" }
   let(:image_1) {
     ActionDispatch::Http::UploadedFile.new(
@@ -30,6 +30,8 @@ RSpec.describe Spots::UpdateParameter, type: :parameter do
   let(:spot) { FactoryBot.create(:spot) }
   let(:user) { spot.user }
   let(:spot_id) { spot.id }
+  let(:latitude) { "36.15305354356379" }
+  let(:longitude) { "136.2725972414738" }
 
   describe "#valid" do
     subject { described_class.new(params, user) }
@@ -84,8 +86,8 @@ RSpec.describe Spots::UpdateParameter, type: :parameter do
                        description: description,
                        images: images,
                        location_id: location.id,
-                       latitude: 0.0,
-                       longitude: 0.0
+                       latitude: latitude.to_f,
+                       longitude: longitude.to_f,
                      })
     end
   end
