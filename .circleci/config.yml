@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/ruby:3.1
+      - image: circleci/ruby:3.1-browsers
     working_directory: ~/fishare_backend
     steps:
       - checkout:
