@@ -84,6 +84,8 @@ RSpec.describe Spots::UpdateParameter, type: :parameter do
                        description: description,
                        images: images,
                        location_id: location.id,
+                       latitude: 0.0,
+                       longitude: 0.0
                      })
     end
   end
