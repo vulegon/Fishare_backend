@@ -24,7 +24,7 @@ RSpec.describe Spots::Show::ShowSerializer, type: :serializer do
                                location: spot.location.name,
                                fish: [fish.name],
                                fishing_types: [fishing_type1.name],
-                               images: spot.image_urls,
+                               images: ActiveModelSerializers::SerializableResource.new(spot.images.blobs.order(created_at: :desc, id: :asc), each_serializer: ::Spots::Show::ImageSerializer).as_json,
                                editable: true,
                              })
         end
