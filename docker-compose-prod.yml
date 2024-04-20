@@ -19,7 +19,7 @@ services:
       - public-data:/myapp/public
       - tmp-data:/myapp/tmp
     depends_on:
-      - app
+      - api
 volumes:
   public-data:
   tmp-data:
