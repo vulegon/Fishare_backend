@@ -2,21 +2,21 @@ FROM ruby:3.1.1
 
 RUN apt-get update -qq && \
     apt-get install -y build-essential \
-                       libpq-dev \
-                       nodejs \
-                       vim
+    libpq-dev \
+    nodejs \
+    vim
 
-RUN mkdir /myapp
+RUN mkdir /app
 
-WORKDIR /myapp
+WORKDIR /app
 
-ADD Gemfile /myapp/Gemfile
-ADD Gemfile.lock /myapp/Gemfile.lock
+ADD Gemfile /app/Gemfile
+ADD Gemfile.lock /app/Gemfile.lock
 
 RUN gem install bundler
 RUN bundle install
 
-ADD . /myapp
+COPY . .
 
 RUN mkdir -p tmp/sockets
 RUN mkdir -p tmp/pids
