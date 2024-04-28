@@ -16,9 +16,9 @@ jobs:
       - image: cimg/ruby:3.1.1
       - image: circleci/postgres
         environment:
-          DB_DATABASE: test_db
-          DB_USER: postgres
-          DB_PASSWORD: password
+          POSTGRES_DATABASE: myapp_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
