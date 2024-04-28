@@ -16,7 +16,7 @@ jobs:
       - image: cimg/ruby:3.1.1
       - image: circleci/postgres
         environment:
-          POSTGRES_DATABASE: myapp_test
+          DB_HOST: app_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
     environment:
