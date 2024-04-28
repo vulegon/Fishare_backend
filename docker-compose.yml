@@ -1,7 +1,8 @@
 version: '3'
 services:
   db:
-    platform: linux/x86_64 # M1チップ対応のため追記
+    platform: linux/x86_64
+    container_name: fishare_db
     image: postgres
     environment:
       POSTGRES_USER: postgres
@@ -13,8 +14,9 @@ services:
   api:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    container_name: fishare_api
     volumes:
-      - .:/myapp
+      - .:/app
       - gem_data:/usr/local/bundle
     ports:
       - "3001:3000"

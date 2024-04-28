@@ -8,12 +8,12 @@ default: &default
 
 development:
   <<: *default
-  database: myapp_development
+  database: development_db
 
 test:
   <<: *default
-  database: myapp_test
-  host: <%= ENV.fetch("APP_DATABASE_HOST") { 'db' } %>
+  host: <%= ENV.fetch("DB_HOST") { 'db' } %>
+  database: test_db
 
 production:
   <<: *default
