@@ -1,24 +1,14 @@
 # README
+## 始め方
+下記より、セットアップ可能です。
+また、このリポジトリはAPIのみなので下記とセットで動きます。
+https://github.com/vulegon/fishare_front
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+git clone git@github.com:vulegon/fishare_backend.git
+docker-compose build
+docker-compose up -d
+docker-compose exec api rails db:create db:migrate db:seed
+```
+問題なく実行できたら下記にアクセスして接続を確認します。
+http://localhost:3001
