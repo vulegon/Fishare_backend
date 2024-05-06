@@ -9,7 +9,7 @@ services:
       - tmp-data:/app/tmp
       - log-data:/app/log
     ports:
-      - "3001:3000"
+      - "3000:3000"
   web:
     build:
       context: containers/nginx
